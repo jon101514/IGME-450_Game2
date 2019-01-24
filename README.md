@@ -1,2 +1,2 @@
-# Simplex_2185
-Repository for DSA2 2185
+# Simplex_2178
+Repository for DSA2 Summer 2017
