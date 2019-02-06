@@ -31,6 +31,7 @@ class MyEntity
 	bool m_bUsePhysicsSolver = false; //Indicates if we will use a physics solver 
 
 	MySolver* m_pSolver = nullptr; //Physics MySolver
+
 public:
 	/*
 	Usage: Constructor that specifies the name attached to the MyEntity

@@ -6,7 +6,7 @@ void MyRigidBody::Init(void)
 	m_pMeshMngr = MeshManager::GetInstance();
 	m_bVisibleBS = false;
 	m_bVisibleOBB = true;
-	m_bVisibleARBB = true;
+	m_bVisibleARBB = false;
 
 	m_fRadius = 0.0f;
 
@@ -225,7 +225,7 @@ void MyRigidBody::AddCollisionWith(MyRigidBody* other)
 		check if the object is already in the colliding set, if
 		the object is already there return with no changes
 	*/
-	
+
 	//insert the entry
 	PRigidBody* pTemp;
 	pTemp = new PRigidBody[m_uCollidingCount + 1];

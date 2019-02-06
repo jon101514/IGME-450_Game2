@@ -414,9 +414,17 @@ void Application::ProcessJoystick(void)
 		fHorizontalSpeed *= 3.0f;
 		fVerticalSpeed *= 3.0f;
 	}
+
+	m_pCameraMngr->MoveForward(fForwardSpeed);
+	m_pCameraMngr->MoveSideways(fHorizontalSpeed);
+	m_pCameraMngr->MoveVertical(fVerticalSpeed);
 #pragma endregion
 #pragma region Camera Orientation
 	//Change the Yaw and the Pitch of the camera
+	float fUSpeed = glm::radians(m_pController[m_uActCont]->axis[SimplexAxis_U] / 150.0f);
+	float fVSpeed = glm::radians(m_pController[m_uActCont]->axis[SimplexAxis_V] / 150.0f);
+	m_pCameraMngr->ChangeYaw(-fUSpeed);
+	m_pCameraMngr->ChangePitch(fVSpeed);
 #pragma endregion
 #pragma region ModelOrientation Orientation
 	m_qArcBall = quaternion(vector3(glm::radians(m_pController[m_uActCont]->axis[SimplexAxis_POVY] / 20.0f), 0.0f, 0.0f)) * m_qArcBall;
