@@ -45,8 +45,10 @@ public class GameManager : MonoBehaviour {
 		// Calculate speed based on acceleration.
 		if (isPhone && speed >= MIN_SPEED) {
 			speed = Map(-Input.acceleration.z, -MIN_Z_TILT, -MAX_Z_TILT, MIN_SPEED, MAX_SPEED);
-		} else {
+		} else if (isPhone) {
 			speed = MIN_SPEED;
+		} else {
+			speed = speedometer.value;
 		}
 		if (isPhone) {
 			UpdateUI();
