@@ -2,7 +2,7 @@
 void Application::InitVariables(void)
 {
 	//Change this to your name and email
-	m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
+	m_sProgrammer = "Ian Davis - icd9008@rit.edu";
 
 	//Set the position and target of the camera
 	//(I'm at [0,0,10], looking at [0,0,0] and up is the positive Y axis)
@@ -18,7 +18,7 @@ void Application::InitVariables(void)
 	m_pTube = new MyMesh();
 	m_pTube->GenerateTube(0.5f, 0.35f, 1.0f, 7, C_GREEN);
 	m_pSphere = new MyMesh();
-	m_pSphere->GenerateSphere(0.5f, 3, C_BLUE);
+	m_pSphere->GenerateSphere(0.5f, 5, C_BLUE);
 	m_pTorus = new MyMesh();
 	m_pTorus->GenerateTorus(0.5f, 0.30f, 7, 7, C_VIOLET);
 
