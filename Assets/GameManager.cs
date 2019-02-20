@@ -9,7 +9,9 @@ public class GameManager : MonoBehaviour {
 
 	public float speed = 1f; // The speed of the player.
 
+	[SerializeField]
 	private const float MIN_SPEED = 1/16f; 
+	[SerializeField]
 	private const float MAX_SPEED = 16f;  
 
 	private const float MIN_Z_TILT = -0.25f;
