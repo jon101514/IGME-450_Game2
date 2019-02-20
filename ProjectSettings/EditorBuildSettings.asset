@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/MVI.unity
     guid: a12c333cee533ac40af4d01017ff8a97
+  - enabled: 1
+    path: Assets/Scenes/So_MVI.unity
+    guid: cd82d072325f6b3468272a536442e883
   m_configObjects: {}
