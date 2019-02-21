@@ -11,6 +11,7 @@ public class UIManager : MonoBehaviour
     public Slider speedometer; // the forward back tilting, tracks the z axis
     public Slider tiltometer; //the left right tilting, tracks the x axis
     public Text test;
+	public Text timer; // Displays time remaining to the player.
 
     // Set up the singleton design pattern
     private void Awake()

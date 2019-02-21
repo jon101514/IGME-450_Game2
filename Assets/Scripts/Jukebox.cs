@@ -107,6 +107,7 @@ public class Jukebox : MonoBehaviour {
 
 	// Pitch down the speakers to make it feel like they're becoming "broken".
 	private IEnumerator Damaged() {
+		Debug.Log("Jukebox.Damaged()");
 		for (int i = 0; i < audioSrcs.Count; i++) {
 			AudioSource currSpeaker = audioSrcs[i];
 			float timer = 0f;
@@ -115,6 +116,7 @@ public class Jukebox : MonoBehaviour {
 				timer += Time.fixedDeltaTime;
 				yield return new WaitForSeconds(Time.fixedDeltaTime);
 			}
+			currSpeaker.volume = 0;
 		}
 	}
 

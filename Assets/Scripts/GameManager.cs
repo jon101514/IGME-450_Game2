@@ -24,6 +24,9 @@ public class GameManager : MonoBehaviour {
     public float Yinput;
     public float Zinput;
 
+	private bool gameIsOver = false;
+	private float time = 45f; // Time remaining for the player.
+
 	//public Slider speedometer;
 	//public Text test;
 
@@ -52,6 +55,17 @@ public class GameManager : MonoBehaviour {
         //call the UI Manager to update the values
             UIManager.instance.UpdateUI();
 #endif
+		time -= Time.deltaTime;
+		if (time <= 0) {
+			UIManager.instance.timer.text = "OVER";
+
+			if (!gameIsOver) {
+				gameIsOver = true;
+				Jukebox.instance.CallDamaged();
+			}
+		} else {
+			UIManager.instance.timer.text = Mathf.Round(time).ToString();
+		}
     }
 
 
