@@ -41,6 +41,7 @@ public class UIManager : MonoBehaviour
         test.text = "In phone \nX: " + GameManager.instance.Xinput + "\nY: " + GameManager.instance.Yinput + "\nZ: " + GameManager.instance.Zinput;
         UpdateUI();
 #endif
+		Jukebox.instance.ChangeVolume(0, speedometer.normalizedValue);
     }
 
     // Update the UI slider.

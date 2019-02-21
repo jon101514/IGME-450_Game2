@@ -9,6 +9,18 @@ EditorBuildSettings:
     path: Assets/Scenes/MVI.unity
     guid: a12c333cee533ac40af4d01017ff8a97
   - enabled: 1
+    path: Assets/Scenes/Title Menu.unity
+    guid: d17d256fab8cbe74890154f73b5b5ae7
+  - enabled: 1
+    path: Assets/Scenes/How to Play.unity
+    guid: 3ec356a25b5a8ef40886866ba79cc54e
+  - enabled: 0
     path: Assets/Scenes/So_MVI.unity
     guid: cd82d072325f6b3468272a536442e883
+  - enabled: 1
+    path: Assets/Scenes/So_MVI2.unity
+    guid: 38f63963ed98fa94c9fcf112efc3acb8
+  - enabled: 1
+    path: Assets/Scenes/Lambrecht_MVI.unity
+    guid: 73bfc8f4de33e3f41b4c2cec56c9da2d
   m_configObjects: {}
