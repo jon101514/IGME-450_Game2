@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Lambrecht_MVI.unity
     guid: 73bfc8f4de33e3f41b4c2cec56c9da2d
+  - enabled: 1
+    path: Assets/Scenes/Hall_MVI.unity
+    guid: 8126bb21861673044ba80ec7673c5ef8
   m_configObjects: {}

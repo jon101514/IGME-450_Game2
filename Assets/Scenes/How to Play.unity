@@ -256,13 +256,15 @@ MonoBehaviour:
     m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: 'Bring song and dance to locales all over the globe! Make sure to <b>reduce
-    your speed</b> when <b>taking turns</b> and to <b>dodge</b> out of the way of
-    obstacles.
+    your speed</b> when <b>taking turns</b>!
 
 
     Speed : Tilt Forward and Backward
 
-    Dodge: Tilt Side-to-Side'
+    Dodge: Tilt Side-to-Side
+
+
+    If you''re cruising too fast when taking a turn, you''ll veer off-track.'
 --- !u!222 &294188370
 CanvasRenderer:
   m_ObjectHideFlags: 0

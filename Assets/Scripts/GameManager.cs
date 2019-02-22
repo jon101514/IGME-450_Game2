@@ -9,8 +9,8 @@ public class GameManager : MonoBehaviour {
 
 	public float speed = 1f; // The speed of the player.
 
-	public const float MIN_SPEED = 1/16f; 
-	public const float MAX_SPEED = 16f;
+	public const float MIN_SPEED = 0f; 
+	public const float MAX_SPEED = 2f;
 
     public const float TILT_THRESHHOLD = 0.5f;
 
@@ -37,6 +37,11 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
+	public void GameOver() {
+		gameIsOver = true;
+		Jukebox.instance.CallDamaged();
+	}
+
 	private void Start() {
 
 	}
@@ -56,7 +61,7 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateUI();
 #endif
 		time -= Time.deltaTime;
-		if (time <= 0) {
+		if (time <= 0 || gameIsOver) {
 			UIManager.instance.timer.text = "OVER";
 
 			if (!gameIsOver) {
@@ -67,10 +72,5 @@ public class GameManager : MonoBehaviour {
 			UIManager.instance.timer.text = Mathf.Round(time).ToString();
 		}
     }
-
-
-	// From https://stackoverflow.com/questions/3451553/value-remapping
-	private float Map(float value, float low1, float high1, float low2, float high2) {
-		return low2 + (high2 - low2) * ((value - low1) / (high1 - low1));
-	}
+		
 }

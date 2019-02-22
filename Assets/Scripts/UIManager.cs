@@ -48,7 +48,7 @@ public class UIManager : MonoBehaviour
     // Update the UI slider.
     public void UpdateUI()
     {
-        speedometer.value = GameManager.instance.Zinput;
-        tiltometer.value = GameManager.instance.Xinput;
+        speedometer.value = GameManager.instance.speed;
+        tiltometer.value = -GameManager.instance.Xinput;
     }
 }

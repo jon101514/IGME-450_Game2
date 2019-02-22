@@ -15,6 +15,7 @@ public class RailManager : MonoBehaviour {
     Queue<RailInfo> unused;
     Queue<RailInfo> unusedTurns;
 
+	[SerializeField] 
     bool turn;
     float nextTurnX;
     float nextTurnZ;
@@ -103,6 +104,7 @@ public class RailManager : MonoBehaviour {
                 {
                     //Edit to be the game over state
                     Debug.Log("Game Over");
+					GameManager.instance.GameOver();
                 }
             }
         }

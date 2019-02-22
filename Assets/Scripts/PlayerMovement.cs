@@ -7,6 +7,12 @@ public class PlayerMovement : MonoBehaviour {
     public float speed;
     public int leanState; //I used an int here because a bool couldn't store the 3 states and I didnt want to use more than one variable for this
 
+	public const float MIN_SPEED = 1/16f; 
+	public const float MAX_SPEED = 16f;
+
+	private const float MIN_Z_TILT = -0.25f;
+	private const float MAX_Z_TILT = -1f;
+
 	private const float LEAN_TIME = 0.5f; // Time it takes to lean.
 	private bool isLeaning = false;
 
@@ -29,7 +35,8 @@ public class PlayerMovement : MonoBehaviour {
     {
         //map the value, apparently set up so mapping is uneccessary
 		tm.Translate(Vector3.forward * speed);
-        return GameManager.instance.Zinput;
+		GameManager.instance.speed = speed;
+        return GameManager.instance.Zinput * 2; // I multiply by 2 just so we have a shot at seeing the Game Over state. - Jon
     }
 
         //gets the lean values from game manager, returns -1 for left, 0 for center, and 1 for right
@@ -62,4 +69,8 @@ public class PlayerMovement : MonoBehaviour {
 		}
 	}
 		
+	// From https://stackoverflow.com/questions/3451553/value-remapping
+	private float Map(float value, float low1, float high1, float low2, float high2) {
+		return low2 + (high2 - low2) * ((value - low1) / (high1 - low1));
+	}
 }
