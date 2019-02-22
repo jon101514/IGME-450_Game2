@@ -80,6 +80,7 @@ public class RailManager : MonoBehaviour {
                 //Needs to be edited later
                 //Change speed value when game manager is correct
                 //Add tilt value when added
+				turn = false;
                 if(GameManager.instance.speed < 1.1f)
                 {
                     currentDirection = nextTurn.turnDirection;
@@ -169,7 +170,7 @@ public class RailManager : MonoBehaviour {
             }
 
 
-            if (!turn)
+			if (unusedTurns.Count > 0)
             {
 
                 Vector3 position = lastRail.Position;
