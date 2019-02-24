@@ -150,9 +150,13 @@ MonoBehaviour:
   MAX_VOLUME: 1
   speaker: {fileID: 1561786396194824, guid: a3c46830d738cdc4d8aff1d10407f9dd, type: 2}
   audioLayersIntros:
-  - {fileID: 8300000, guid: 8f37770a46606cd4ba2bf39283a321af, type: 3}
-  - {fileID: 8300000, guid: 97cf30301cf81364088919a2aff97978, type: 3}
+  - {fileID: 8300000, guid: 5a03e1f9c4a37204d85aa74c399b3ce8, type: 3}
+  - {fileID: 8300000, guid: 40727771531d08a418e14b3711ac56f5, type: 3}
+  - {fileID: 8300000, guid: 586a8e18a8256a243bcc094d01f1ab3e, type: 3}
+  - {fileID: 8300000, guid: db6a97b0e3e4c034495d374e8b22aae0, type: 3}
   audioLayersLoops:
-  - {fileID: 8300000, guid: 56d385ab26aae034ab0a3b5817c92bd6, type: 3}
-  - {fileID: 8300000, guid: 3060dcb45f54c7a4b8c0c6750ae6026e, type: 3}
+  - {fileID: 8300000, guid: 255fccf4921e9e548b524d06f38211bc, type: 3}
+  - {fileID: 8300000, guid: 56c4960e37679cd41a7baad5800817f8, type: 3}
+  - {fileID: 8300000, guid: 37951993164aaaa4c883bf51783a241c, type: 3}
+  - {fileID: 8300000, guid: 388596b1eed3f4a40ad19898cdc562c3, type: 3}
   audioSrcs: []

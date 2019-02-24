@@ -24,6 +24,28 @@ public class Jukebox : MonoBehaviour {
 	private const float EPSILON = 0.05f;
 	private const int ONE_SEC = 60;
 
+	/** Upon awake, make sure that for every audio layer in our music piece, we have
+	 * one "speaker" for each.
+	 * Also sets up the singleton object.
+	 */
+	private void Awake() {
+		if (instance == null) {
+			instance = this;
+		}
+		// Create as many audio sources as children as there are audio layers.
+		for (int i = 0; i < audioLayersIntros.Length; i++) {
+			GameObject result = (GameObject) Instantiate(speaker, transform.position, Quaternion.identity);
+			result.GetComponent<AudioSource>().clip = audioLayersIntros[i]; // Set its audio clip.
+			result.GetComponent<AudioSource>().volume = 0; // Set its volume to "base."
+			audioSrcs.Add(result.GetComponent<AudioSource>());
+		}
+		// Make the song start out basic with just bass and simple melody.
+		Debug.Log("Jukebox.Awake() - Song begins basic");
+		AddSpeaker(0);
+		AddSpeaker(1);
+		DontDestroyOnLoad(this.gameObject);
+	}
+
 	/* Change the volume of a given speaker.
 	 * param[spkIndex] - index of the speaker whose volume we want to change.
 	 * param[newVal] - new volume of the speaker.
@@ -65,9 +87,11 @@ public class Jukebox : MonoBehaviour {
 			if (i == speakerIndex) {
 				AudioSource currSpeaker = audioSrcs[speakerIndex];
 				currSpeaker.volume = (MAX_VOLUME / audioLayersIntros.Length);
-			} else {
+			}
+			/*else {
 				StartCoroutine(VRFade(i));
 			}
+			*/
 		}
 	}
 
@@ -111,33 +135,14 @@ public class Jukebox : MonoBehaviour {
 		for (int i = 0; i < audioSrcs.Count; i++) {
 			AudioSource currSpeaker = audioSrcs[i];
 			float timer = 0f;
-			for (int j = 0; j < ONE_SEC; j++) {
+			for (int j = 0; j < 30; j++) {
 				currSpeaker.pitch = Mathf.Lerp(1, 0, timer);
+				currSpeaker.volume = Mathf.Lerp(1, 0, timer);
 				timer += Time.fixedDeltaTime;
 				yield return new WaitForSeconds(Time.fixedDeltaTime);
 			}
-			currSpeaker.volume = 0;
+			currSpeaker.gameObject.SetActive(false);
 		}
-	}
-
-	/** Upon awake, make sure that for every audio layer in our music piece, we have
-	 * one "speaker" for each.
-	 * Also sets up the singleton object.
-	 */
-	private void Awake() {
-		if (instance == null) {
-			instance = this;
-		}
-		// Create as many audio sources as children as there are audio layers.
-		for (int i = 0; i < audioLayersIntros.Length; i++) {
-			GameObject result = (GameObject) Instantiate(speaker, transform.position, Quaternion.identity);
-			result.GetComponent<AudioSource>().clip = audioLayersIntros[i]; // Set its audio clip.
-			Debug.Log("Jukebox.Awake() -- nonzero value");
-			result.GetComponent<AudioSource>().volume = MAX_VOLUME / audioLayersIntros.Length; // Set its volume to "base."
-			audioSrcs.Add(result.GetComponent<AudioSource>());
-		}
-		AddSpeaker(0);
-		DontDestroyOnLoad(this.gameObject);
 	}
 
 	// Start up the audio loop for the vertical remix.
