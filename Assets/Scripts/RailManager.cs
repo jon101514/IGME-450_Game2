@@ -73,7 +73,8 @@ public class RailManager : MonoBehaviour {
 
             if(bool1 || bool2 || bool3 || bool4)
             {
-                Debug.Log("Next t d: " + nextTurn.direction);
+                turn = false;
+                Debug.Log("Check");
 
                 //Check speed or turn
                 //Needs to be edited later
@@ -167,7 +168,7 @@ public class RailManager : MonoBehaviour {
             }
 
 
-            if (!turn)
+            if (unusedTurns.Count > 0)
             {
 
                 Vector3 position = lastRail.Position;
