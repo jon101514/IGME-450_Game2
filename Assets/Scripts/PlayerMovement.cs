@@ -30,13 +30,14 @@ public class PlayerMovement : MonoBehaviour {
 #endif
     }
 
+	// FIX
     //scales the z input from the gamemanager to a reasonable speed
     private float UpdateSpeed()
     {
         //map the value, apparently set up so mapping is uneccessary
 		tm.Translate(Vector3.forward * speed);
 		GameManager.instance.speed = speed;
-        return GameManager.instance.Zinput * 2; // I multiply by 2 just so we have a shot at seeing the Game Over state. - Jon
+        return GameManager.instance.Zinput * 2; // MAY CAUSE PROBLEMS
     }
 
         //gets the lean values from game manager, returns -1 for left, 0 for center, and 1 for right

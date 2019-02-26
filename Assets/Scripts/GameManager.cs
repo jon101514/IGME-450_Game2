@@ -7,17 +7,17 @@ public class GameManager : MonoBehaviour {
 
 	public static GameManager instance; // Singleton design pattern
 
-	public float speed = 1f; // The speed of the player.
+	public float speed = 1f; // The speed of the player. // NOT USED HERE
 
-	public const float MIN_SPEED = 0f; 
+	public const float MIN_SPEED = 0f; // USED ELSEWHERE
 	public const float MAX_SPEED = 2f;
 
-    public const float TILT_THRESHHOLD = 0.5f;
+    public const float TILT_THRESHHOLD = 0.5f; // USED IN PLAYERMOVEMENT
 
 	//private const float MIN_Z_TILT = -0.25f;
 	//private const float MAX_Z_TILT = -1f;
 
-	private bool isPhone = false;
+	private bool isPhone = false; // REPLACED WITH PREPROCESSOR
 
     //the values of the acceleration to be exposed
     public float Xinput;

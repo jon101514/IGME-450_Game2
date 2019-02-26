@@ -21,7 +21,6 @@ public class Jukebox : MonoBehaviour {
 	public List<AudioSource> audioSrcs; 
 	// public AudioClip victoryClip; // Our victory music.
 
-	private const float EPSILON = 0.05f;
 	private const int ONE_SEC = 60;
 
 	/** Upon awake, make sure that for every audio layer in our music piece, we have
