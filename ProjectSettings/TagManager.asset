@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Rail
   - Turn
+  - Cart_Top
   layers:
   - Default
   - TransparentFX
