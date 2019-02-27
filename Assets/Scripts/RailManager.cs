@@ -32,6 +32,7 @@ public class RailManager : MonoBehaviour {
         player = GameObject.FindGameObjectWithTag("Player");
 
         currentRails = new Queue<RailInfo>();
+
         unused = new Queue<RailInfo>();
         unusedTurns = new Queue<RailInfo>();
 
@@ -50,7 +51,6 @@ public class RailManager : MonoBehaviour {
         for (int i = 0; i < leng; i++)
         {
             currentRails.Enqueue(initialRails[i]);
-
             if(i == leng - 1)
             {
                 lastRail = initialRails[i];
@@ -108,6 +108,13 @@ public class RailManager : MonoBehaviour {
 					GameManager.instance.GameOver();
                 }
             }
+        }
+        //checking for certain distance to increase time
+        else if(!turn&&lastRail.Position==initialRails[0].Position*100)
+        {
+            float oldTime = GameManager.instance.GetTime();
+            float newTime = oldTime*100;
+            GameManager.instance.SetTime(newTime);
         }
 
         CleanUp();
