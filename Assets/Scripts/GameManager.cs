@@ -40,10 +40,15 @@ public class GameManager : MonoBehaviour {
 	public void GameOver() {
 		gameIsOver = true;
 		Jukebox.instance.CallDamaged();
+		UIManager.instance.ShowGameOverPanel();
 	}
 
 	private void Start() {
 		StartCoroutine(VerticalRemixDemo());
+	}
+
+	public bool GetGameIsOver() {
+		return gameIsOver;
 	}
 
 	// After 15 seconds, add a new musical layer. This is because we don't know how gameplay will affect music as feedback, so this just demonstrates it.
@@ -75,8 +80,7 @@ public class GameManager : MonoBehaviour {
 			UIManager.instance.timer.text = "OVER";
 
 			if (!gameIsOver) {
-				gameIsOver = true;
-				Jukebox.instance.CallDamaged();
+				GameOver();
 			}
 		} else {
 			UIManager.instance.timer.text = Mathf.Round(time).ToString();
