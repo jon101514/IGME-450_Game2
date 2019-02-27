@@ -166,7 +166,7 @@ public class RailManager : MonoBehaviour {
                 else
                 {
                     // Game Over condition
-                    GameManager.instance.GameOver();
+                    // GameManager.instance.GameOver();
                 }
             }
         }
@@ -177,6 +177,7 @@ public class RailManager : MonoBehaviour {
     void CleanUp ()
     {
 
+        Debug.Log("Removal check");
         // Direction check of cart
         Direction direction = currentDirection;
 
@@ -209,6 +210,7 @@ public class RailManager : MonoBehaviour {
         //Take out the farthest rail
         if (bool1 || bool2 || bool3 || bool4)
         {
+            Debug.Log("Removed");
 
             if (currentRails.Peek().turn)
             {
@@ -218,6 +220,9 @@ public class RailManager : MonoBehaviour {
             {
                 unused.Enqueue(currentRails.Dequeue());
             }
+
+            AddTrack();
+
         }
     }
 
@@ -240,6 +245,7 @@ public class RailManager : MonoBehaviour {
 
     void NewStraight()
     {
+        Debug.Log("New Straight");
 
         Vector3 position = newestRail.Position;
 
@@ -280,7 +286,7 @@ public class RailManager : MonoBehaviour {
 
     void NewTurn()
     {
-
+        Debug.Log("New Turn");
         // Starting direction of turn
         Direction direction = futureDirection;
 
