@@ -11,6 +11,24 @@ Prefab:
   m_SourcePrefab: {fileID: 0}
   m_RootGameObject: {fileID: 1868262279064722}
   m_IsPrefabAsset: 1
+--- !u!1 &1007184110024690
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4497221750785342}
+  - component: {fileID: 33316587844169000}
+  - component: {fileID: 23318825786477442}
+  - component: {fileID: 114351172585653462}
+  m_Layer: 0
+  m_Name: Rail_Turn 2
+  m_TagString: Turn
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
 --- !u!1 &1139131482018986
 GameObject:
   m_ObjectHideFlags: 1
@@ -57,6 +75,24 @@ GameObject:
   m_Layer: 0
   m_Name: pasted__group2_pasted__group1_pasted__pasted__group_pasted__pasted__pasted__pCube1
   m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!1 &1210273982598018
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4470128098039794}
+  - component: {fileID: 33120966100647264}
+  - component: {fileID: 23027766232498966}
+  - component: {fileID: 114671476228869162}
+  m_Layer: 0
+  m_Name: Rail_Turn
+  m_TagString: Turn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -269,7 +305,7 @@ GameObject:
   - component: {fileID: 23591611792381292}
   - component: {fileID: 114249841134591954}
   m_Layer: 0
-  m_Name: Rail_Turn
+  m_Name: Rail_Turn 3
   m_TagString: Turn
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -744,7 +780,7 @@ Transform:
   m_LocalScale: {x: 6, y: 6, z: 6}
   m_Children: []
   m_Father: {fileID: 4398929382491804}
-  m_RootOrder: 15
+  m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4145675520696134
 Transform:
@@ -905,10 +941,12 @@ Transform:
   - {fileID: 4813851260387718}
   - {fileID: 4996232005879952}
   - {fileID: 4768200431253538}
-  - {fileID: 4139859089920468}
+  - {fileID: 4470128098039794}
   - {fileID: 4817541806596906}
   - {fileID: 4709986886520458}
   - {fileID: 4596563369988448}
+  - {fileID: 4497221750785342}
+  - {fileID: 4139859089920468}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -924,6 +962,32 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4768200431253538}
   m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4470128098039794
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210273982598018}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.979, y: -0.0119999945, z: -8.097}
+  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_Children: []
+  m_Father: {fileID: 4398929382491804}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!4 &4497221750785342
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007184110024690}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.979, y: -0.0119999945, z: -8.097}
+  m_LocalScale: {x: 6, y: 6, z: 6}
+  m_Children: []
+  m_Father: {fileID: 4398929382491804}
+  m_RootOrder: 19
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &4523295819322170
 Transform:
@@ -1170,6 +1234,41 @@ Transform:
   m_Father: {fileID: 4398929382491804}
   m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!23 &23027766232498966
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210273982598018}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 3ce590a6ec62c0646ba95dc0e312d9fe, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
 --- !u!23 &23069723622089706
 MeshRenderer:
   m_ObjectHideFlags: 1
@@ -1361,6 +1460,41 @@ MeshRenderer:
   m_RenderingLayerMask: 4294967295
   m_Materials:
   - {fileID: 2100000, guid: d45f4da6db84f4843bee9bedf8c7b45c, type: 3}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 0
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+--- !u!23 &23318825786477442
+MeshRenderer:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007184110024690}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RenderingLayerMask: 4294967295
+  m_Materials:
+  - {fileID: 2100000, guid: 3ce590a6ec62c0646ba95dc0e312d9fe, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1856,6 +1990,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1926885093773850}
   m_Mesh: {fileID: 4300000, guid: d45f4da6db84f4843bee9bedf8c7b45c, type: 3}
+--- !u!33 &33120966100647264
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210273982598018}
+  m_Mesh: {fileID: 4300000, guid: 3ce590a6ec62c0646ba95dc0e312d9fe, type: 3}
 --- !u!33 &33139988268749498
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1891,6 +2032,13 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1887216142283074}
   m_Mesh: {fileID: 4300000, guid: d45f4da6db84f4843bee9bedf8c7b45c, type: 3}
+--- !u!33 &33316587844169000
+MeshFilter:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007184110024690}
+  m_Mesh: {fileID: 4300000, guid: 3ce590a6ec62c0646ba95dc0e312d9fe, type: 3}
 --- !u!33 &33347505871774336
 MeshFilter:
   m_ObjectHideFlags: 1
@@ -1994,8 +2142,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 7
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114137897294531596
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2009,8 +2157,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 5
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114167285630653502
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2024,8 +2172,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 12
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114170830918888362
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2039,8 +2187,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 4
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114249841134591954
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2054,8 +2202,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 0
   turn: 1
-  direction: 2
-  turnDirection: 0
+  direction: 1
+  turnDirection: 2
 --- !u!114 &114291035107419866
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2069,7 +2217,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 2
   turn: 0
-  direction: 2
+  direction: 1
+  turnDirection: 1
+--- !u!114 &114351172585653462
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1007184110024690}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c6dc94e08f5e94bb22830efd054fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialPosition: 0
+  turn: 1
+  direction: 1
   turnDirection: 2
 --- !u!114 &114372857046775256
 MonoBehaviour:
@@ -2084,8 +2247,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 0
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114456816426512378
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2099,8 +2262,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 3
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114473452542040840
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2114,8 +2277,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 15
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114533776592610918
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2129,8 +2292,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 14
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114578304425342418
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2144,8 +2307,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 10
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114615683045790828
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2159,8 +2322,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 6
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114639677390805164
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2174,7 +2337,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 17
   turn: 0
-  direction: 2
+  direction: 1
+  turnDirection: 1
+--- !u!114 &114671476228869162
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1210273982598018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c0c6dc94e08f5e94bb22830efd054fd0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  initialPosition: 0
+  turn: 1
+  direction: 1
   turnDirection: 2
 --- !u!114 &114696318018271532
 MonoBehaviour:
@@ -2189,8 +2367,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 11
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114706015584322370
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2204,8 +2382,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 1
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114724965251538844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2219,8 +2397,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 9
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114747788331251160
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2234,8 +2412,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 16
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114782995028061570
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2249,8 +2427,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 13
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1
 --- !u!114 &114877504930863234
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -2264,5 +2442,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   initialPosition: 8
   turn: 0
-  direction: 2
-  turnDirection: 2
+  direction: 1
+  turnDirection: 1

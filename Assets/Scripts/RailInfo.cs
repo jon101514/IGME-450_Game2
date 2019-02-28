@@ -58,6 +58,12 @@ public class RailInfo : MonoBehaviour {
         }
     }
 
+    //Position of the following track
+    public Vector3 nextPosition
+    {
+        get; set;
+    }
+
     //Moves the rail without GameObject
     /// <summary>
     /// Move added to the current position
@@ -92,6 +98,11 @@ public class RailInfo : MonoBehaviour {
         else
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+
+        if(Lean == -1)
+        {
+            transform.Rotate(new Vector3(0, 90, 0));
         }
 
     }

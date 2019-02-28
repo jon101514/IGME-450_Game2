@@ -19,8 +19,6 @@ public class RailManager : MonoBehaviour {
     RailInfo newestRail;
     
     // Next position in which a rail is removed
-    float nextPosZ = 7.8f;
-    float nextPosX = 7.8f;
     GameObject player;
     GameObject top;
     PlayerMovement playerScript;
@@ -30,13 +28,15 @@ public class RailManager : MonoBehaviour {
     float nextTurnZ;
     Queue<RailInfo> upcomingTurns;
 
+    //something
+    int totalRailsPassed;
+    int straightsSpawnedInRow;
+
     // Direction of the cart and direction of the end of the track
     [SerializeField]
     Direction currentDirection;
     [SerializeField]
     Direction futureDirection;
-
-
 
 
 
@@ -59,8 +59,11 @@ public class RailManager : MonoBehaviour {
 
 
         // Change later to add more turns
-        GameObject initialTurn = GameObject.FindGameObjectWithTag("Turn");
-        unusedTurns.Enqueue(initialTurn.GetComponent<RailInfo>());
+        GameObject[] initialTurns = GameObject.FindGameObjectsWithTag("Turn");
+        for (int i = 0; i < initialTurns.Length; i++)
+        {
+            unusedTurns.Enqueue(initialTurns[i].GetComponent<RailInfo>());
+        }
 
 
         // Takes in initial rails
@@ -85,6 +88,11 @@ public class RailManager : MonoBehaviour {
                 futureDirection = newestRail.direction;
             }
         }
+
+        // Set default ints
+        totalRailsPassed = 0;
+        straightsSpawnedInRow = 18;
+
 	}
 
 
@@ -95,14 +103,14 @@ public class RailManager : MonoBehaviour {
 
         Vector3 rotation = top.transform.rotation.eulerAngles;
         top.transform.rotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, -25 * playerScript.leanState));
-
+        
         TurnNeeded();
 
         CleanUp();
         
     }
 
-
+    
 
     // Method for easy access to turn condition
     bool TurnSucceeded(RailInfo turnTaken)
@@ -125,14 +133,14 @@ public class RailManager : MonoBehaviour {
             RailInfo nextTurn = upcomingTurns.Peek();
             nextTurnX = nextTurn.Position.x;
             nextTurnZ = nextTurn.Position.z;
-            bool bool1 = player.transform.position.z > nextTurnZ && nextTurn.direction == Direction.ZUp;
-            bool bool2 = player.transform.position.z < nextTurnZ && nextTurn.direction == Direction.ZDown;
-            bool bool3 = player.transform.position.x > nextTurnX && nextTurn.direction == Direction.XUp;
-            bool bool4 = player.transform.position.x < nextTurnX && nextTurn.direction == Direction.XDown;
+            bool bigEnoughZ = player.transform.position.z > nextTurnZ && nextTurn.direction == Direction.ZUp;
+            bool smallEnoughZ = player.transform.position.z < nextTurnZ && nextTurn.direction == Direction.ZDown;
+            bool bigEnoughX = player.transform.position.x > nextTurnX && nextTurn.direction == Direction.XUp;
+            bool smallEnoughX = player.transform.position.x < nextTurnX && nextTurn.direction == Direction.XDown;
 
 
 
-            if (bool1 || bool2 || bool3 || bool4)
+            if (bigEnoughZ || smallEnoughZ || bigEnoughX || smallEnoughX)
             {
 
                 //If the turn is passed take it out of the turning queue so that it isn't checked against
@@ -168,6 +176,16 @@ public class RailManager : MonoBehaviour {
                         player.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     }
 
+                    // Set the position to align with the track
+                    if (currentDirection == Direction.ZDown || currentDirection == Direction.ZUp)
+                    {
+                        player.transform.position = new Vector3( turnTaken.nextPosition.x, player.transform.position.y, player.transform.position.z );
+                    }
+                    else
+                    {
+                        player.transform.position = new Vector3( player.transform.position.x, player.transform.position.y, turnTaken.nextPosition.z );
+                    }
+
                 }
                 else
                 {
@@ -182,66 +200,82 @@ public class RailManager : MonoBehaviour {
 
     void CleanUp ()
     {
-        
-        // Direction check of cart
-        Direction direction = currentDirection;
 
-        bool bool1 = player.transform.position.z > nextPosZ && direction == Direction.ZUp;
-        bool bool2 = player.transform.position.z < nextPosZ && direction == Direction.ZDown;
-        bool bool3 = player.transform.position.x > nextPosX && direction == Direction.XUp;
-        bool bool4 = player.transform.position.x < nextPosX && direction == Direction.XDown;
+        bool tracksToCheck = true;
 
-
-        // Changes next deletion position
-        if (bool1)
-        {
-            nextPosZ += 2.6f;
-        }
-        else if (bool2)
-        {
-            nextPosZ -= 2.6f;
-        }
-        else if (bool3)
-        {
-            nextPosX += 2.6f;
-        }
-        else if (bool4)
-        {
-            nextPosX -= 2.6f;
-        }
-
-
-
-        // Take out the farthest rail
-        if (bool1 || bool2 || bool3 || bool4)
+        do
         {
 
-            if (currentRails.Peek().turn)
+            // Direction check of cart
+            Direction direction = currentDirection;
+
+            bool bigEnoughZ = player.transform.position.z > currentRails.Peek().Position.z + 7.8 && direction == Direction.ZUp;
+            bool smallEnoughZ = player.transform.position.z < currentRails.Peek().Position.z - 7.8 && direction == Direction.ZDown;
+            bool bigEnoughX = player.transform.position.x > currentRails.Peek().Position.x + 7.8 && direction == Direction.XUp;
+            bool smallEnoughX = player.transform.position.x < currentRails.Peek().Position.x - 7.8 && direction == Direction.XDown;
+
+
+
+            // Take out the farthest rail
+            if (bigEnoughZ || smallEnoughZ || bigEnoughX || smallEnoughX)
             {
-                unusedTurns.Enqueue(currentRails.Dequeue());
+
+                if (currentRails.Peek().turn)
+                {
+                    RailInfo dequeued = currentRails.Dequeue();
+                    dequeued.NewPosition(new Vector3(0,100,0));
+                    unusedTurns.Enqueue(dequeued);
+                }
+                else
+                {
+                    RailInfo dequeued = currentRails.Dequeue();
+                    dequeued.NewPosition(new Vector3(0, 100, 0));
+                    unused.Enqueue(dequeued);
+                }
+                
+                totalRailsPassed++;
+
+                AddTrack();
+
+                tracksToCheck = true;
+
             }
             else
             {
-                unused.Enqueue(currentRails.Dequeue());
+                tracksToCheck = false;
             }
 
-            AddTrack();
 
-        }
+        } while (tracksToCheck);
     }
 
 
     void AddTrack()
     {
 
+        // Random track length with a max of 25  and min of 3
+        // Not true random gets more likely to end every time a track is added
+        bool newTurn = true;
+        if(straightsSpawnedInRow < 25)
+        {
+            newTurn = (Random.Range(0, 25 - straightsSpawnedInRow) == 0);
+        }
+        if(straightsSpawnedInRow < 3)
+        {
+            newTurn = false;
+        }
+        
+
         // Conditional for turning being spawned
         // Edit this
-        if (unusedTurns.Count > 0)
+        if (unusedTurns.Count > 0 && newTurn)
         {
+            straightsSpawnedInRow = 0;
             NewTurn();
         }
-        else
+        else if (unused.Count > 0)
         {
+            straightsSpawnedInRow++;
             NewStraight();
         }
     }
@@ -249,39 +283,41 @@ public class RailManager : MonoBehaviour {
 
     void NewStraight()
     {
-        Debug.Log("New Straight");
 
         Vector3 position = newestRail.Position;
 
         Direction direction = futureDirection;
 
-        bool bool1 = direction == Direction.ZUp;
-        bool bool2 = direction == Direction.ZDown;
-        bool bool3 = direction == Direction.XUp;
-        bool bool4 = direction == Direction.XDown;
+        bool zUp = direction == Direction.ZUp;
+        bool zDown = direction == Direction.ZDown;
+        bool xUp = direction == Direction.XUp;
+        bool xDown = direction == Direction.XDown;
 
 
         // Set position based on previous track
-        if (bool1)
+        if (zUp)
         {
             position.z += 2.6f;
         }
-        else if (bool2)
+        else if (zDown)
         {
             position.z -= 2.6f;
         }
-        else if (bool3)
+        else if (xUp)
         {
             position.x += 2.6f;
         }
-        else if (bool4)
+        else if (xDown)
         {
             position.x -= 2.6f;
         }
 
+        newestRail.nextPosition = position;
+
         // Set new track and add it
         newestRail = unused.Dequeue();
         newestRail.direction = futureDirection;
+        newestRail.turnDirection = futureDirection;
         newestRail.NewPosition(position);
         currentRails.Enqueue(newestRail);
 
@@ -290,61 +326,62 @@ public class RailManager : MonoBehaviour {
 
     void NewTurn()
     {
-        Debug.Log("New Turn");
+        
         // Starting direction of turn
         Direction direction = futureDirection;
 
         Vector3 position = newestRail.Position;
 
-        bool bool1 = direction == Direction.ZUp;
-        bool bool2 = direction == Direction.ZDown;
-        bool bool3 = direction == Direction.XUp;
-        bool bool4 = direction == Direction.XDown;
+        bool zUp = direction == Direction.ZUp;
+        bool zDown = direction == Direction.ZDown;
+        bool xUp = direction == Direction.XUp;
+        bool xDown = direction == Direction.XDown;
 
 
-        if (bool1)
+        // Set position based on previous track
+        if (zUp)
         {
             position.z += 2.6f;
         }
-        else if (bool2)
+        else if (zDown)
         {
             position.z -= 2.6f;
         }
-        else if (bool3)
+        else if (xUp)
         {
             position.x += 2.6f;
         }
-        else if (bool4)
+        else if (xDown)
         {
             position.x -= 2.6f;
         }
 
+        newestRail.nextPosition = position;
 
         newestRail = unusedTurns.Dequeue();
-
-
+        
 
         // Setting turn type
         // Edit this
-        if (currentDirection == Direction.ZUp)
+        newestRail.direction = futureDirection;
+
+        bool leftOrRight = (1 == Random.Range(0,2));
+        if(leftOrRight)
         {
-            newestRail.direction = Direction.ZUp;
-            newestRail.turnDirection = Direction.XUp;
+            newestRail.turnDirection = (Direction)((int)futureDirection * 2);
         }
-        else if (currentDirection == Direction.XUp)
+        else
         {
-            newestRail.direction = Direction.XUp;
-            newestRail.turnDirection = Direction.ZDown;
+            newestRail.turnDirection = (Direction)((int)futureDirection / 2);
         }
-        else if (currentDirection == Direction.ZDown)
+
+        if((int) newestRail.turnDirection > 8)
         {
-            newestRail.direction = Direction.ZDown;
-            newestRail.turnDirection = Direction.XDown;
+            newestRail.turnDirection = (Direction) 1;
         }
-        else if (currentDirection == Direction.XDown)
+        if ((int)newestRail.turnDirection < 1)
         {
-            newestRail.direction = Direction.XDown;
-            newestRail.turnDirection = Direction.ZUp;
+            newestRail.turnDirection = (Direction) 8;
         }
 
 
