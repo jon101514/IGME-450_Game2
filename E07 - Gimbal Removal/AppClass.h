@@ -15,6 +15,8 @@ Date: 2017/05
 class Application
 {
 	matrix4 m_m4Model = IDENTITY_M4;
+	float m_fFOV=45.0f;
+	vector3 m_v3Eye = vector3(0.0f, 0.0f, 5.0f);//cam pos
 	quaternion m_qOrientation;
 	vector3 m_v3Rotation;
 	MyMesh* m_pMesh = nullptr;

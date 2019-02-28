@@ -397,22 +397,40 @@ void Application::ProcessKeyboard(void)
 		fSpeed *= 5.0f;
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+	{
 		m_pCameraMngr->MoveForward(fSpeed);
+		m_v3Eye.z += .01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
+	{
 		m_pCameraMngr->MoveForward(-fSpeed);
+		m_v3Eye.z -= .01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
-		m_pCameraMngr->MoveSideways(-fSpeed);
+	{
+		m_pCameraMngr->MoveForward(-fSpeed);
+		m_v3Eye.x -= .01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
-		m_pCameraMngr->MoveSideways(fSpeed);
+	{
+		m_pCameraMngr->MoveForward(fSpeed);
+		m_v3Eye.x += .01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Q))
-		m_pCameraMngr->MoveVertical(-fSpeed);
+	{
+		m_pCameraMngr->MoveForward(-fSpeed);
+		m_v3Eye.y -= .01f;
+	}
 
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::E))
-		m_pCameraMngr->MoveVertical(fSpeed);
+	{
+		m_pCameraMngr->MoveForward(fSpeed);
+		m_v3Eye.y += .01f;
+	}
 #pragma endregion
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::X))
 	{
@@ -438,6 +456,14 @@ void Application::ProcessKeyboard(void)
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::R))
 	{
 		m_v3Rotation = vector3(0.0f);
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Add))
+	{
+		m_fFOV += .01f;
+	}
+	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Subtract))
+	{
+		m_fFOV += .01f;
 	}
 }
 //Joystick
