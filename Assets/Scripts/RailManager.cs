@@ -109,12 +109,13 @@ public class RailManager : MonoBehaviour {
                 }
             }
         }
-        //checking for certain distance to increase time
-        else if(!turn&&lastRail.Position==initialRails[0].Position*100)
+        //checking if player passes the checkpoint
+        if(player.transform.position.z>=railCheckpoint.transform.position.z)
         {
             float oldTime = GameManager.instance.GetTime();
-            float newTime = oldTime*100;
-            GameManager.instance.SetTime(newTime);
+            float newTime = 15.0f;
+            oldTime += newTime;
+            GameManager.instance.SetTime(oldTime);
         }
 
         CleanUp();

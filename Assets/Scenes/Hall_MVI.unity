@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657844, g: 0.49641222, b: 0.57481694, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -1229,6 +1229,12 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114014655418749564, guid: decd19308631665428f381332e8ed1ab,
+        type: 2}
+      propertyPath: railCheckpoint
+      value: 
+      objectReference: {fileID: 1983420887317340, guid: 5ee66d7cb90a14d4ca85065facb5b5eb,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: decd19308631665428f381332e8ed1ab, type: 2}
   m_IsPrefabAsset: 0
