@@ -50,7 +50,6 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Start() {
-		StartCoroutine(VerticalRemixDemo());
 
         XValues = new Queue<float>();
         YValues = new Queue<float>();
@@ -68,16 +67,6 @@ public class GameManager : MonoBehaviour {
 
 	public bool GetGameIsOver() {
 		return gameIsOver;
-	}
-
-	// After 15 seconds, add a new musical layer. This is because we don't know how gameplay will affect music as feedback, so this just demonstrates it.
-	private IEnumerator VerticalRemixDemo() {
-		yield return new WaitForSecondsRealtime(15f);
-		Debug.Log("Add Backup and Drums");
-		Jukebox.instance.AddSpeaker(2);
-		yield return new WaitForSecondsRealtime(15f);
-		Debug.Log("Add Extra Layers");
-		Jukebox.instance.AddSpeaker(3);
 	}
 
 	private void Update() {

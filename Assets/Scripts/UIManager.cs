@@ -15,6 +15,7 @@ public class UIManager : MonoBehaviour
 	public Text score;
 	public Text multiplier;
 	public RectTransform gameOverPanel; // Panel with UI elements that display when the game is over.
+	public RectTransform startPanel; // Panel with UI elements that display when the game starts.
 
 	private Image gameOverPanelBG; // Background of the game over panel. 
 
@@ -43,6 +44,7 @@ public class UIManager : MonoBehaviour
 
     private void Start()    {
 		UpdateScore();
+		Invoke("HideStartPanel", 3f);
     }
 
     private void Update()
@@ -79,6 +81,10 @@ public class UIManager : MonoBehaviour
         speedometer.value = GameManager.instance.speed;
         tiltometer.value = -GameManager.instance.Xinput;
     }
+		
+	private void HideStartPanel() {
+		startPanel.gameObject.SetActive(false);
+	}
 
 	// Calls the coroutine which displays the Game Over panel.
 	public void ShowGameOverPanel() {
