@@ -42,7 +42,8 @@ public class GameManager : MonoBehaviour {
 			instance = this;//setup singleton
 		}
 	}
-
+    public float GetTime() { return time; }
+    public void SetTime(float t) { time = t;}
 	public void GameOver() {
 		gameIsOver = true;
 		Jukebox.instance.CallDamaged();
@@ -80,13 +81,17 @@ public class GameManager : MonoBehaviour {
             UIManager.instance.UpdateUI(); //update the UI to match the tilt if on a phone
 #endif
 		time -= Time.deltaTime;
-		if (time <= 0 || gameIsOver) {
+        //checking if checkpoint reached
+        //if(checkpoint is reached)
+        //timer+=Time.deltaTime*10;
+        if (time <= 0 || gameIsOver) {
 			UIManager.instance.timer.text = "OVER";
 
 			if (!gameIsOver) {
 				GameOver();
 			}
-		} else {
+		}
+        else {
 			UIManager.instance.timer.text = Mathf.Round(time).ToString();
 		}
     }

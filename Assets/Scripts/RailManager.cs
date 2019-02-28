@@ -11,6 +11,7 @@ public class RailManager : MonoBehaviour {
     float nextPosZ = 7.8f;
     float nextPosX = 7.8f;
     GameObject player;
+    public GameObject railCheckpoint;
 
     Queue<RailInfo> unused;
     Queue<RailInfo> unusedTurns;
@@ -28,10 +29,10 @@ public class RailManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
         player = GameObject.FindGameObjectWithTag("Player");
 
         currentRails = new Queue<RailInfo>();
+
         unused = new Queue<RailInfo>();
         unusedTurns = new Queue<RailInfo>();
 
@@ -50,7 +51,6 @@ public class RailManager : MonoBehaviour {
         for (int i = 0; i < leng; i++)
         {
             currentRails.Enqueue(initialRails[i]);
-
             if(i == leng - 1)
             {
                 lastRail = initialRails[i];
@@ -108,6 +108,14 @@ public class RailManager : MonoBehaviour {
 					GameManager.instance.GameOver();
                 }
             }
+        }
+        //checking if player passes the checkpoint
+        if(player.transform.position.z>=railCheckpoint.transform.position.z)
+        {
+            float oldTime = GameManager.instance.GetTime();
+            float newTime = 15.0f;
+            oldTime += newTime;
+            GameManager.instance.SetTime(oldTime);
         }
 
         CleanUp();
