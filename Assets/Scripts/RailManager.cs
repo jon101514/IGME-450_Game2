@@ -11,6 +11,7 @@ public class RailManager : MonoBehaviour {
     float nextPosZ = 7.8f;
     float nextPosX = 7.8f;
     GameObject player;
+    public GameObject railCheckpoint;
 
     Queue<RailInfo> unused;
     Queue<RailInfo> unusedTurns;
@@ -28,7 +29,6 @@ public class RailManager : MonoBehaviour {
 	// Use this for initialization
 	void Start ()
     {
-
         player = GameObject.FindGameObjectWithTag("Player");
 
         currentRails = new Queue<RailInfo>();
