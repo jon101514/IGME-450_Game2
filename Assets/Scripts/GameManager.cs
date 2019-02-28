@@ -24,6 +24,12 @@ public class GameManager : MonoBehaviour {
     public float Yinput;
     public float Zinput;
 
+    private Queue<float> XValues; //queue that hold the past few frames of data of the input
+    private Queue<float> YValues;
+    private Queue<float> ZValues;
+
+    private int inputBufferFrames = 10; // number of frames the input will average for the value
+
 	private bool gameIsOver = false;
 	private float time = 90f; // Time remaining for the player.
 
@@ -45,6 +51,19 @@ public class GameManager : MonoBehaviour {
 
 	private void Start() {
 		StartCoroutine(VerticalRemixDemo());
+
+        XValues = new Queue<float>();
+        YValues = new Queue<float>();
+        ZValues = new Queue<float>();
+
+        //fill the queues with 0.0fs, these values get replaced quickly but are important so the queue is at the desired size
+        for(int i = 0; i < inputBufferFrames; i++)
+        {
+            XValues.Enqueue(0.0f);
+            YValues.Enqueue(0.0f);
+            ZValues.Enqueue(0.0f);
+        }
+        Debug.Log(XValues);
 	}
 
 	public bool GetGameIsOver() {
@@ -62,18 +81,14 @@ public class GameManager : MonoBehaviour {
 	}
 
 	private void Update() {
-#if UNITY_EDITOR
-        //get the inputs directly from the UI
-        Xinput = Mathf.Round(UIManager.instance.tiltometer.value * 100.0f) / 100.0f;
-        Yinput = 0.0f;
-        Zinput = Mathf.Round(UIManager.instance.speedometer.value * 100.0f) / 100.0f;
+        Xinput = UpdateXInput();
+        //Yinput = UpdateYInput(); //not needed anywhere
+        Zinput = UpdateZInput();
+#if UNITY_EDITOR // this is pointless for now but im going to leave it in just in case
+
 #else //this would be on a phone
-        //get all 3 axis of rotation, rounded to two decimal places
-            Xinput = Mathf.Round(-Input.acceleration.x * 100.0f)/100.0f;
-            Yinput = Mathf.Round(-Input.acceleration.y * 100.0f)/100.0f;
-            Zinput = Mathf.Round(-Input.acceleration.z * 100.0f)/100.0f;
         //call the UI Manager to update the values
-            UIManager.instance.UpdateUI();
+            UIManager.instance.UpdateUI(); //update the UI to match the tilt if on a phone
 #endif
 		time -= Time.deltaTime;
 		if (time <= 0 || gameIsOver) {
@@ -86,5 +101,51 @@ public class GameManager : MonoBehaviour {
 			UIManager.instance.timer.text = Mathf.Round(time).ToString();
 		}
     }
-		
+
+    //helper function to help unclutter the main update loop
+    private float UpdateXInput()//it will always add one to the queue then take one away, keeping the number the same
+    {
+#if UNITY_EDITOR
+        XValues.Enqueue(Mathf.Round(UIManager.instance.tiltometer.value * 100.0f) / 100.0f);
+#else //this would be on a phone
+        XValues.Enqueue(Mathf.Round(-Input.acceleration.x * 100.0f) / 100.0f);
+#endif
+        XValues.Dequeue();
+        return AverageQueueData(XValues); //average the queue values to smooth the input
+    }
+    //helper function to help unclutter the main update loop
+    private float UpdateYInput() //completely unused but we have it in case
+    {
+#if UNITY_EDITOR
+        YValues.Enqueue(0.0f);
+#else //this would be on a phone
+        YValues.Enqueue(0.0f);
+#endif
+        YValues.Dequeue();
+        return AverageQueueData(YValues); //average the queue values to smooth the input
+    }
+
+    //helper function to help unclutter the main update loop
+    private float UpdateZInput()
+    {
+#if UNITY_EDITOR
+        ZValues.Enqueue(Mathf.Round(UIManager.instance.speedometer.value * 100.0f) / 100.0f);
+#else //this would be on a phone
+        ZValues.Enqueue(Mathf.Round(-Input.acceleration.z * 100.0f) / 100.0f);
+#endif
+        ZValues.Dequeue();
+        return AverageQueueData(ZValues); //average the queue values to smooth the input
+    }
+
+    //returns the average value of the input queue
+    private float AverageQueueData(Queue<float> data)
+    {
+        float avg = 0.0f;
+        foreach(float f in data)
+        {
+            avg += f;
+        }
+        avg /= inputBufferFrames;
+        return Mathf.Round(avg * 100.0f) / 100.0f;
+    }
 }
