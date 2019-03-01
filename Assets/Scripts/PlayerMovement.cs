@@ -23,7 +23,7 @@ public class PlayerMovement : MonoBehaviour {
 	}
 
     private void Update () {
-        speed = UpdateSpeed();
+        UpdateSpeed(); // this sets the speed variable in the method
         leanState = UpdateLean(); //we will need a method that takes in lean state to do the visual rotation of the cart
 #if UNITY_EDITOR
         Debug.Log("Player Speed: " + speed + "\nPlayer Lean: " + leanState);
@@ -34,10 +34,16 @@ public class PlayerMovement : MonoBehaviour {
     //scales the z input from the gamemanager to a reasonable speed
     private float UpdateSpeed()
     {
-        //map the value, apparently set up so mapping is uneccessary
+        //do any modifications to the speed value under this line but before assigning the gamemanager speed value
+        speed = GameManager.instance.Zinput * 2;
+        //any modifications from the raw input to spped go here in the form of speed = newSpeed
+
+
+        
 		tm.Translate(Vector3.forward * speed);
 		GameManager.instance.speed = speed;
-        return GameManager.instance.Zinput * 2; // MAY CAUSE PROBLEMS
+
+        return speed; 
     }
 
         //gets the lean values from game manager, returns -1 for left, 0 for center, and 1 for right

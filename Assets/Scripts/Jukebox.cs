@@ -42,7 +42,7 @@ public class Jukebox : MonoBehaviour {
 		Debug.Log("Jukebox.Awake() - Song begins basic");
 		AddSpeaker(0);
 		AddSpeaker(1);
-		DontDestroyOnLoad(this.gameObject);
+//		DontDestroyOnLoad(this.gameObject);
 	}
 
 	/* Change the volume of a given speaker.

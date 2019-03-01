@@ -1,4 +1,5 @@
-﻿using System.Collections;
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -9,6 +10,14 @@ public class RailManager : MonoBehaviour {
         
     // Initial Track
     RailInfo[] initialRails;
+
+    Queue<RailInfo> currentRails;
+    RailInfo lastRail;
+    float nextPosZ = 7.8f;
+    float nextPosX = 7.8f;
+    GameObject player;
+    public GameObject railCheckpoint;
+
 
     // Queues
     Queue<RailInfo> currentRails;
@@ -46,13 +55,16 @@ public class RailManager : MonoBehaviour {
 	void Start ()
     {
 
+
         // Cart for information
+
         player = GameObject.FindGameObjectWithTag("Player");
         top = GameObject.FindGameObjectWithTag("Cart_Top");
         playerScript = player.GetComponent<PlayerMovement>();
 
         // Set up empty queues
         currentRails = new Queue<RailInfo>();
+
         unused = new Queue<RailInfo>();
         unusedTurns = new Queue<RailInfo>();
         upcomingTurns = new Queue<RailInfo>();
@@ -80,7 +92,6 @@ public class RailManager : MonoBehaviour {
         for (int i = 0; i < leng; i++)
         {
             currentRails.Enqueue(initialRails[i]);
-
             if(i == leng - 1)
             {
                 newestRail = initialRails[i];
@@ -194,6 +205,28 @@ public class RailManager : MonoBehaviour {
                 }
             }
         }
+
+        //checking if player passes the checkpoint
+        if(player.transform.position.z>=railCheckpoint.transform.position.z)
+        {
+            float oldTime = GameManager.instance.GetTime();
+            float newTime = 15.0f;
+            oldTime += newTime;
+            // GameManager.instance.SetTime(oldTime);
+        }
+
+        CleanUp();
+
+        /*
+            nextPosZ += 2.6f;
+            Vector3 position = lastRail.Position;
+            position.z += 2.6f;
+            lastRail = currentRails.Dequeue();
+            lastRail.direction = direction;
+            lastRail.NewPosition(position);
+            currentRails.Enqueue(lastRail);
+         */
+
     }
     
 
