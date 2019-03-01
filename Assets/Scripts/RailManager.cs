@@ -1,11 +1,16 @@
-﻿using System.Collections;
+
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class RailManager : MonoBehaviour {
 
-    //Rails
+    // Fields
+
+        
+    // Initial Track
     RailInfo[] initialRails;
+
     Queue<RailInfo> currentRails;
     RailInfo lastRail;
     float nextPosZ = 7.8f;
@@ -13,32 +18,67 @@ public class RailManager : MonoBehaviour {
     GameObject player;
     public GameObject railCheckpoint;
 
+
+    // Queues
+    Queue<RailInfo> currentRails;
     Queue<RailInfo> unused;
     Queue<RailInfo> unusedTurns;
 
-	[SerializeField] 
-    bool turn;
+    // Most recent rail to be added to access both sides of the track
+    RailInfo newestRail;
+    
+    // Next position in which a rail is removed
+    GameObject player;
+    GameObject top;
+    PlayerMovement playerScript;
+
+    // Is there a turn and all information about it
     float nextTurnX;
     float nextTurnZ;
-    RailInfo nextTurn;
+    Queue<RailInfo> upcomingTurns;
+
+    //something
+    int totalRailsPassed;
+    int straightsSpawnedInRow;
+
+    // Direction of the cart and direction of the end of the track
     [SerializeField]
     Direction currentDirection;
     [SerializeField]
     Direction futureDirection;
 
-	// Use this for initialization
+
+
+    // Methods
+
+	// Initialization
 	void Start ()
     {
-        player = GameObject.FindGameObjectWithTag("Player");
 
+
+        // Cart for information
+
+        player = GameObject.FindGameObjectWithTag("Player");
+        top = GameObject.FindGameObjectWithTag("Cart_Top");
+        playerScript = player.GetComponent<PlayerMovement>();
+
+        // Set up empty queues
         currentRails = new Queue<RailInfo>();
 
         unused = new Queue<RailInfo>();
         unusedTurns = new Queue<RailInfo>();
+        upcomingTurns = new Queue<RailInfo>();
 
-        GameObject initialTurn = GameObject.FindGameObjectWithTag("Turn");
-        unusedTurns.Enqueue(initialTurn.GetComponent<RailInfo>());
 
+        // Change later to add more turns
+        GameObject[] initialTurns = GameObject.FindGameObjectsWithTag("Turn");
+        for (int i = 0; i < initialTurns.Length; i++)
+        {
+            unusedTurns.Enqueue(initialTurns[i].GetComponent<RailInfo>());
+        }
+
+
+        // Takes in initial rails
         GameObject[] objects = GameObject.FindGameObjectsWithTag("Rail");
         int leng = objects.Length;
         initialRails = new RailInfo[leng];
@@ -48,67 +88,124 @@ public class RailManager : MonoBehaviour {
             initialRails[temp.initialPosition] = temp;
         }
 
+        // Then puts them in the starting queue
         for (int i = 0; i < leng; i++)
         {
             currentRails.Enqueue(initialRails[i]);
             if(i == leng - 1)
             {
-                lastRail = initialRails[i];
-                currentDirection = lastRail.direction;
-                futureDirection = lastRail.direction;
+                newestRail = initialRails[i];
+                currentDirection = newestRail.direction;
+                futureDirection = newestRail.direction;
             }
         }
 
-        turn = false;
+        // Set default ints
+        totalRailsPassed = 0;
+        straightsSpawnedInRow = 18;
+
 	}
+
+
+
 
     void Update()
     {
-        if(turn)
+
+        Vector3 rotation = top.transform.rotation.eulerAngles;
+        top.transform.rotation = Quaternion.Euler(new Vector3(rotation.x, rotation.y, -25 * playerScript.leanState));
+        
+        TurnNeeded();
+
+        CleanUp();
+        
+    }
+
+    
+
+    // Method for easy access to turn condition
+    bool TurnSucceeded(RailInfo turnTaken)
+    {
+        // Edit this
+        return ( GameManager.instance.speed < 1.1f || turnTaken.Lean == playerScript.leanState);
+    }
+
+
+    // Method to see if a turn is needed
+    void TurnNeeded()
+    {
+
+        // Checks for turning
+        if (upcomingTurns.Count > 0)
         {
-            //Check if the middle of the turn has passed
-            bool bool1 = player.transform.position.z > nextTurnZ && nextTurn.direction == Direction.ZUp;
-            bool bool2 = player.transform.position.z < nextTurnZ && nextTurn.direction == Direction.ZDown;
-            bool bool3 = player.transform.position.x > nextTurnX && nextTurn.direction == Direction.XUp;
-            bool bool4 = player.transform.position.x < nextTurnX && nextTurn.direction == Direction.XDown;
 
-            if(bool1 || bool2 || bool3 || bool4)
+            // Check if the middle of the turn has passed
+
+            RailInfo nextTurn = upcomingTurns.Peek();
+            nextTurnX = nextTurn.Position.x;
+            nextTurnZ = nextTurn.Position.z;
+            bool bigEnoughZ = player.transform.position.z > nextTurnZ && nextTurn.direction == Direction.ZUp;
+            bool smallEnoughZ = player.transform.position.z < nextTurnZ && nextTurn.direction == Direction.ZDown;
+            bool bigEnoughX = player.transform.position.x > nextTurnX && nextTurn.direction == Direction.XUp;
+            bool smallEnoughX = player.transform.position.x < nextTurnX && nextTurn.direction == Direction.XDown;
+
+
+
+            if (bigEnoughZ || smallEnoughZ || bigEnoughX || smallEnoughX)
             {
-                Debug.Log("Next t d: " + nextTurn.direction);
 
-                //Check speed or turn
-                //Needs to be edited later
-                //Change speed value when game manager is correct
-                //Add tilt value when added
-				turn = false;
-                if(GameManager.instance.speed < 1.1f)
+                //If the turn is passed take it out of the turning queue so that it isn't checked against
+                RailInfo turnTaken = upcomingTurns.Dequeue();
+
+                // Check if cart turned
+                if ( TurnSucceeded(turnTaken) )
                 {
+
+                    //Succeeded the turn
+
                     currentDirection = nextTurn.turnDirection;
-                    if(currentDirection == Direction.XUp)
+
+                    //Puts the player on next track
+
+                    if (currentDirection == Direction.XUp)
                     {
-                        player.transform.rotation = Quaternion.Euler(new Vector3(0,90,0));
+                        player.transform.rotation = Quaternion.Euler(new Vector3(0, 90, 0));
                     }
+
                     else if (currentDirection == Direction.XDown)
                     {
                         player.transform.rotation = Quaternion.Euler(new Vector3(0, -90, 0));
                     }
-                    else if(currentDirection == Direction.ZDown)
+
+                    else if (currentDirection == Direction.ZDown)
                     {
                         player.transform.rotation = Quaternion.Euler(new Vector3(0, 180, 0));
                     }
+
                     else
                     {
-                        player.transform.rotation = Quaternion.Euler(new Vector3(0,0,0));
+                        player.transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
                     }
+
+                    // Set the position to align with the track
+                    if (currentDirection == Direction.ZDown || currentDirection == Direction.ZUp)
+                    {
+                        player.transform.position = new Vector3( turnTaken.nextPosition.x, player.transform.position.y, player.transform.position.z );
+                    }
+                    else
+                    {
+                        player.transform.position = new Vector3( player.transform.position.x, player.transform.position.y, turnTaken.nextPosition.z );
+                    }
+
                 }
                 else
                 {
-                    //Edit to be the game over state
-                    Debug.Log("Game Over");
-					GameManager.instance.GameOver();
+                    // Game Over condition
+                    GameManager.instance.GameOver();
                 }
             }
         }
+
         //checking if player passes the checkpoint
         if(player.transform.position.z>=railCheckpoint.transform.position.z)
         {
@@ -129,163 +226,206 @@ public class RailManager : MonoBehaviour {
             lastRail.NewPosition(position);
             currentRails.Enqueue(lastRail);
          */
-    }
 
-    // Update is called once per frame
+    }
+    
+
+
     void CleanUp ()
     {
 
-        Direction direction = currentDirection;
+        bool tracksToCheck = true;
 
-        bool bool1 = player.transform.position.z > nextPosZ && direction == Direction.ZUp;
-
-        bool bool2 = player.transform.position.z < nextPosZ && direction == Direction.ZDown;
-
-        bool bool3 = player.transform.position.x > nextPosX && direction == Direction.XUp;
-
-        bool bool4 = player.transform.position.x < nextPosX && direction == Direction.XDown;
-
-
-        if (bool1)
+        do
         {
-            nextPosZ += 2.6f;
-        }
-        else if (bool2)
-        {
-            nextPosZ -= 2.6f;
-        }
-        else if (bool3)
-        {
-            nextPosX += 2.6f;
-        }
-        else if (bool4)
-        {
-            nextPosX -= 2.6f;
-        }
 
-        if (bool1 || bool2 || bool3 || bool4)
-        {
-            //Debug.Log("Last Rail position: " + lastRail.Position);
+            // Direction check of cart
+            Direction direction = currentDirection;
 
-            if (currentRails.Peek().turn)
-            {
-                unusedTurns.Enqueue(currentRails.Dequeue());
-                turn = false;
-            }
-            else
-            {
-                unused.Enqueue(currentRails.Dequeue());
-            }
+            bool bigEnoughZ = player.transform.position.z > currentRails.Peek().Position.z + 7.8 && direction == Direction.ZUp;
+            bool smallEnoughZ = player.transform.position.z < currentRails.Peek().Position.z - 7.8 && direction == Direction.ZDown;
+            bool bigEnoughX = player.transform.position.x > currentRails.Peek().Position.x + 7.8 && direction == Direction.XUp;
+            bool smallEnoughX = player.transform.position.x < currentRails.Peek().Position.x - 7.8 && direction == Direction.XDown;
 
 
-			if (unusedTurns.Count > 0)
+
+            // Take out the farthest rail
+            if (bigEnoughZ || smallEnoughZ || bigEnoughX || smallEnoughX)
             {
 
-                Vector3 position = lastRail.Position;
-
-                bool1 = direction == Direction.ZUp;
-
-                bool2 = direction == Direction.ZDown;
-
-                bool3 = direction == Direction.XUp;
-
-                bool4 = direction == Direction.XDown;
-
-
-                if (bool1)
+                if (currentRails.Peek().turn)
                 {
-                    position.z += 2.6f;
+                    RailInfo dequeued = currentRails.Dequeue();
+                    dequeued.NewPosition(new Vector3(0,100,0));
+                    unusedTurns.Enqueue(dequeued);
                 }
-                else if (bool2)
+                else
                 {
-                    position.z -= 2.6f;
+                    RailInfo dequeued = currentRails.Dequeue();
+                    dequeued.NewPosition(new Vector3(0, 100, 0));
+                    unused.Enqueue(dequeued);
                 }
-                else if (bool3)
-                {
-                    position.x += 2.6f;
-                }
-                else if (bool4)
-                {
-                    position.x -= 2.6f;
-                }
-
-
-                lastRail = unusedTurns.Dequeue();
-
-
-
-                if (currentDirection == Direction.ZUp)
-                {
-                    lastRail.direction = Direction.ZUp;
-                    lastRail.turnDirection = Direction.XUp;
-                }
-                else if (currentDirection == Direction.XUp)
-                {
-                    lastRail.direction = Direction.XUp;
-                    lastRail.turnDirection = Direction.ZDown;
-                }
-                else if (currentDirection == Direction.ZDown)
-                {
-                    lastRail.direction = Direction.ZDown;
-                    lastRail.turnDirection = Direction.XDown;
-                }
-                else if (currentDirection == Direction.XDown)
-                {
-                    lastRail.direction = Direction.XDown;
-                    lastRail.turnDirection = Direction.ZUp;
-                }
-
-
-
-                lastRail.NewPosition(position);
                 
-                turn = true;
-                nextTurnX = position.x;
-                nextTurnZ = position.z;
-                nextTurn = lastRail;
-                futureDirection = lastRail.turnDirection;
+                totalRailsPassed++;
 
-                currentRails.Enqueue(lastRail);
+                AddTrack();
+
+                tracksToCheck = true;
+
             }
             else
             {
-                Vector3 position = lastRail.Position;
-
-                direction = futureDirection;
-
-                bool1 = direction == Direction.ZUp;
-
-                bool2 = direction == Direction.ZDown;
-
-                bool3 = direction == Direction.XUp;
-
-                bool4 = direction == Direction.XDown;
-
-
-                if (bool1)
-                {
-                    position.z += 2.6f;
-                }
-                else if (bool2)
-                {
-                    position.z -= 2.6f;
-                }
-                else if (bool3)
-                {
-                    position.x += 2.6f;
-                }
-                else if (bool4)
-                {
-                    position.x -= 2.6f;
-                }
-
-                lastRail = unused.Dequeue();
-                lastRail.direction = futureDirection;
-                lastRail.NewPosition(position);
-                currentRails.Enqueue(lastRail);
+                tracksToCheck = false;
             }
+
+
+        } while (tracksToCheck);
+    }
+
+
+    void AddTrack()
+    {
+
+        // Random track length with a max of 25  and min of 3
+        // Not true random gets more likely to end every time a track is added
+        bool newTurn = true;
+        if(straightsSpawnedInRow < 25)
+        {
+            newTurn = (Random.Range(0, 25 - straightsSpawnedInRow) == 0);
+        }
+        if(straightsSpawnedInRow < 3)
+        {
+            newTurn = false;
+        }
+        
+
+        // Conditional for turning being spawned
+        // Edit this
+        if (unusedTurns.Count > 0 && newTurn)
+        {
+            straightsSpawnedInRow = 0;
+            NewTurn();
+        }
+        else if (unused.Count > 0)
+        {
+            straightsSpawnedInRow++;
+            NewStraight();
+        }
+    }
+
+
+    void NewStraight()
+    {
+
+        Vector3 position = newestRail.Position;
+
+        Direction direction = futureDirection;
+
+        bool zUp = direction == Direction.ZUp;
+        bool zDown = direction == Direction.ZDown;
+        bool xUp = direction == Direction.XUp;
+        bool xDown = direction == Direction.XDown;
+
+
+        // Set position based on previous track
+        if (zUp)
+        {
+            position.z += 2.6f;
+        }
+        else if (zDown)
+        {
+            position.z -= 2.6f;
+        }
+        else if (xUp)
+        {
+            position.x += 2.6f;
+        }
+        else if (xDown)
+        {
+            position.x -= 2.6f;
         }
 
+        newestRail.nextPosition = position;
+
+        // Set new track and add it
+        newestRail = unused.Dequeue();
+        newestRail.direction = futureDirection;
+        newestRail.turnDirection = futureDirection;
+        newestRail.NewPosition(position);
+        currentRails.Enqueue(newestRail);
 
     }
+
+
+    void NewTurn()
+    {
+        
+        // Starting direction of turn
+        Direction direction = futureDirection;
+
+        Vector3 position = newestRail.Position;
+
+        bool zUp = direction == Direction.ZUp;
+        bool zDown = direction == Direction.ZDown;
+        bool xUp = direction == Direction.XUp;
+        bool xDown = direction == Direction.XDown;
+
+
+        // Set position based on previous track
+        if (zUp)
+        {
+            position.z += 2.6f;
+        }
+        else if (zDown)
+        {
+            position.z -= 2.6f;
+        }
+        else if (xUp)
+        {
+            position.x += 2.6f;
+        }
+        else if (xDown)
+        {
+            position.x -= 2.6f;
+        }
+
+        newestRail.nextPosition = position;
+
+        newestRail = unusedTurns.Dequeue();
+        
+
+        // Setting turn type
+        // Edit this
+        newestRail.direction = futureDirection;
+
+        bool leftOrRight = (1 == Random.Range(0,2));
+        if(leftOrRight)
+        {
+            newestRail.turnDirection = (Direction)((int)futureDirection * 2);
+        }
+        else
+        {
+            newestRail.turnDirection = (Direction)((int)futureDirection / 2);
+        }
+
+        if((int) newestRail.turnDirection > 8)
+        {
+            newestRail.turnDirection = (Direction) 1;
+        }
+        if ((int)newestRail.turnDirection < 1)
+        {
+            newestRail.turnDirection = (Direction) 8;
+        }
+
+
+        // Create rail and add it
+        newestRail.NewPosition(position);
+
+        upcomingTurns.Enqueue(newestRail);
+        futureDirection = newestRail.turnDirection;
+
+        currentRails.Enqueue(newestRail);
+    }
+
+
 }

@@ -4,7 +4,10 @@ using UnityEngine;
 
 public enum Direction
 {
-    XUp, XDown, ZUp, ZDown
+    ZUp = 1,
+    XUp = 2,
+    ZDown = 4,
+    XDown = 8
 }
 
 public class RailInfo : MonoBehaviour {
@@ -33,6 +36,32 @@ public class RailInfo : MonoBehaviour {
         {
             return transform.position;
         }
+    }
+
+    //Lean of rail to check against the cart
+    public int Lean
+    {
+        get
+        {
+            if((int) direction * 2 == ((int) turnDirection) || (int)direction / 8 == ((int)turnDirection))
+            {
+                return 1;
+            }
+            else if((int)direction / 2 == ((int)turnDirection) || (int) direction * 8 == ((int)turnDirection))
+            {
+                return -1;
+            }
+            else
+            {
+                return 0;
+            }
+        }
+    }
+
+    //Position of the following track
+    public Vector3 nextPosition
+    {
+        get; set;
     }
 
     //Moves the rail without GameObject
@@ -69,6 +98,11 @@ public class RailInfo : MonoBehaviour {
         else
         {
             transform.rotation = Quaternion.Euler(new Vector3(0, 0, 0));
+        }
+
+        if(Lean == -1)
+        {
+            transform.Rotate(new Vector3(0, 90, 0));
         }
 
     }
