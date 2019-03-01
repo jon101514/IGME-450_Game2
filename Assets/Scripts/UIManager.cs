@@ -70,7 +70,7 @@ public class UIManager : MonoBehaviour
 
 	// Update the score and multiplier UI elements. Also dynamically resize the score multiplier for gamefeel.
 	private void UpdateScore() {
-		score.text = "1P " + ScoreManager.instance.GetScore().ToString().PadLeft(12, '0');
+		score.text = "1P " + ScoreManager.instance.GetScore().ToString().PadLeft(7, '0');
 		multiplier.text = "x" + ScoreManager.instance.GetMultiplier().ToString();
 		multiplier.fontSize = FONT_SIZE + (int) Mathf.Round(ScoreManager.instance.GetMultiplier());
 	}

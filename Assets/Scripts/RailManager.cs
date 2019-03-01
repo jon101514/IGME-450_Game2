@@ -115,7 +115,7 @@ public class RailManager : MonoBehaviour {
             float oldTime = GameManager.instance.GetTime();
             float newTime = 15.0f;
             oldTime += newTime;
-            GameManager.instance.SetTime(oldTime);
+            // GameManager.instance.SetTime(oldTime);
         }
 
         CleanUp();
