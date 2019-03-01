@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.44657868, g: 0.49641263, b: 0.57481706, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5743e92d7455f4186f6a3ec8db487c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedometer: {fileID: 2036951342}
+  speedometer: {fileID: 1502075858}
   tiltometer: {fileID: 1609631456}
   test: {fileID: 1685352361}
   timer: {fileID: 1519249649}
@@ -1551,8 +1551,14 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114014655418749564, guid: decd19308631665428f381332e8ed1ab,
+        type: 2}
+      propertyPath: railCheckpoint
+      value: 
+      objectReference: {fileID: 1983420887317340, guid: 5ee66d7cb90a14d4ca85065facb5b5eb,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: decd19308631665428f381332e8ed1ab, type: 2}
   m_IsPrefabAsset: 0
@@ -1722,6 +1728,50 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 832899301}
   m_CullTransparentMesh: 0
+
+--- !u!1001 &774101512
+Prefab:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalPosition.y
+      value: -0.452
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalPosition.z
+      value: -5.283
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4398929382491804, guid: decd19308631665428f381332e8ed1ab, type: 2}
+      propertyPath: m_RootOrder
+      value: 5
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: decd19308631665428f381332e8ed1ab, type: 2}
+  m_IsPrefabAsset: 0
+
 --- !u!1 &862941759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2663,6 +2713,7 @@ CanvasRenderer:
 Camera:
   m_CorrespondingSourceObject: {fileID: 20917807617656718, guid: ec326bdf330b4804a8f9f904f46c255b,
     type: 2}
+
   m_PrefabInternal: {fileID: 1900041617}
 --- !u!1 &1503277557
 GameObject:
@@ -3186,12 +3237,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1968740764}
   m_CullTransparentMesh: 0
---- !u!114 &2036951342 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114277564396179136, guid: 729410e7d70f79e44b26f1820162c556,
-    type: 2}
-  m_PrefabInternal: {fileID: 431301297}
-  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!1 &2096399443
 GameObject:
   m_ObjectHideFlags: 0

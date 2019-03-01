@@ -38,7 +38,10 @@ public class PlayerMovement : MonoBehaviour {
         speed = GameManager.instance.Zinput * 2;
         //any modifications from the raw input to spped go here in the form of speed = newSpeed
 
-
+		// Prevent users from going backwards
+		if (speed < 0) {
+			speed = 0;
+		}
         
 		tm.Translate(Vector3.forward * speed);
 		GameManager.instance.speed = speed;
