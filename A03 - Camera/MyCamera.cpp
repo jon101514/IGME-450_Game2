@@ -17,6 +17,12 @@ void Simplex::MyCamera::SetVerticalPlanes(vector2 a_v2Vertical) { m_v2Vertical =
 matrix4 Simplex::MyCamera::GetProjectionMatrix(void) { return m_m4Projection; }
 matrix4 Simplex::MyCamera::GetViewMatrix(void) { CalculateViewMatrix(); return m_m4View; }
 
+//vectors to be used for camera in local space
+vector3 v3Forward;//should be local z axis
+vector3 v3Right;//should be local x axis
+vector3 v3Up;//should be local y axis
+
+
 Simplex::MyCamera::MyCamera()
 {
 	Init(); //Init the object with default values
@@ -152,11 +158,34 @@ void Simplex::MyCamera::CalculateProjectionMatrix(void)
 
 void MyCamera::MoveForward(float a_fDistance)
 {
-	//The following is just an example and does not take in account the forward vector (AKA view vector)
-	m_v3Position += vector3(0.0f, 0.0f,-a_fDistance);
-	m_v3Target += vector3(0.0f, 0.0f, -a_fDistance);
-	m_v3Above += vector3(0.0f, 0.0f, -a_fDistance);
+	//defining forward, right, & up vectors in local space
+	v3Forward = glm::normalize(m_v3Position-m_v3Target);
+	v3Right = glm::normalize(glm::cross(m_v3Above,v3Forward));
+	v3Up = glm::cross(v3Forward,v3Right);
+
+	//moving the camera in local space
+	m_v3Position += v3Forward*-a_fDistance;
+	m_v3Target += v3Forward * -a_fDistance;
+	m_v3Above += v3Up * a_fDistance;
 }
 
-void MyCamera::MoveVertical(float a_fDistance){}//Needs to be defined
-void MyCamera::MoveSideways(float a_fDistance){}//Needs to be defined
+//this method is not being used
+void MyCamera::MoveVertical(float a_fDistance)
+{
+	m_v3Position += vector3(0.0f, -a_fDistance, 0.0f);
+	m_v3Target += vector3(0.0f, -a_fDistance, 0.0f);
+	m_v3Above += vector3(0.0f, -a_fDistance, 0.0f);
+}
+
+void MyCamera::MoveSideways(float a_fDistance)
+{
+	//defining forward, right, & up vectors in local space
+	v3Forward = glm::normalize(m_v3Position - m_v3Target);
+	v3Right = glm::normalize(glm::cross(m_v3Above, v3Forward));
+	v3Up = glm::cross(v3Forward, v3Right);
+
+	//moving the camera in local space
+	m_v3Position += v3Right * -a_fDistance;
+	m_v3Target += v3Right * -a_fDistance;
+	m_v3Above += v3Up;
+}

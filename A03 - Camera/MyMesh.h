@@ -106,13 +106,14 @@ public:
 	OUTPUT: ---
 	*/
 	void Render(matrix4 a_mProjection, matrix4 a_mView, matrix4 a_mModel);
+	//for rendering camera
+	void Render(MyCamera* a_pCamera, matrix4 a_mModel);
 	/*
 	USAGE: Renders the mesh on the specified position by the
 	provided camera view and projection
 	ARGUMENTS: MyCamera a_mCamera -> the camera I want to see my scene from
 	OUTPUT: ---
 	*/
-	void Render(MyCamera* a_pCamera, matrix4 a_mModel);
 	/*
 	USAGE: Will render this mesh a_ToWorlsList size times
 	ARGUMENTS:

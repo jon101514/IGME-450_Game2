@@ -3,8 +3,8 @@ using namespace Simplex;
 void Application::InitVariables(void)
 {
 	//Change this to your name and email
-	m_sProgrammer = "Alberto Bobadilla - labigm@rit.edu";
-
+	m_sProgrammer = "Ian Davis - icd9008@rit.edu";
+	m_pMesh = new MyMesh();
 	//Set the position and target of the camera
 	//(I'm at [0,0,10], looking at [0,0,0] and up is the positive Y axis)
 	m_pCameraMngr->SetPositionTargetAndUpward(AXIS_Z * 10.0f, ZERO_V3, AXIS_Y);
@@ -50,7 +50,15 @@ void Application::Display(void)
 
 	//Render the list of MyMeshManager
 	m_pMyMeshMngr->Render();
-	
+
+	//fixing Gimbal Lock
+	matrix4 m4OrientX = glm::rotate(IDENTITY_M4, glm::radians(m_pCamera->GetTarget().x), vector3(1.0f, 0.0f, 0.0f));
+	matrix4 m4OrientY = glm::rotate(IDENTITY_M4, glm::radians(m_pCamera->GetTarget().y), vector3(0.0f, 1.0f, 0.0f));
+	matrix4 m4OrientZ = glm::rotate(IDENTITY_M4, glm::radians(m_pCamera->GetTarget().z), vector3(0.0f, 0.0f, 1.0f));
+	matrix4 m4Orientation = m4OrientZ * m4OrientY*m4OrientX;
+	//rendering camera
+	m_pMesh->Render(m_pCamera,m4Orientation);
+
 	//render list call
 	m_uRenderCallCount = m_pMeshMngr->Render();
 

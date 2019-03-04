@@ -203,6 +203,7 @@ void MyMeshManager::Render(void)
 	uint uMeshCount = m_meshList.size();
 	for (uint uMesh = 0; uMesh < uMeshCount; ++uMesh)
 	{
+		
 		//new instance rendering
 		m_meshList[uMesh]->Render(m_pCamera, m_renderList[uMesh]);
 		
