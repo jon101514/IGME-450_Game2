@@ -15,7 +15,7 @@ public class ScoreManager : MonoBehaviour {
 	private const float INTERVAL = 1/10f; // Calculate the score every XX seconds.
 	private const float EPSILON = 0.005f;
 
-	private int[] VR_SCORES = {25000, 50000}; // When the player exceeds these scores, add in a vertically-remixed music layer.
+	private int[] VR_SCORES = {25000, 50000, 100000, 150000}; // When the player exceeds these scores, add in a vertically-remixed music layer.
 	private int vrScoresIndex = 0; // Current index we're checking for in VR_SCORES.
 
 	// Getter for the multiplier value.
@@ -62,12 +62,19 @@ public class ScoreManager : MonoBehaviour {
 		}
 		if (score >= VR_SCORES[vrScoresIndex]) {
 			if (vrScoresIndex == 0) {
-				Debug.Log("Add Backup and Drums");
+				Debug.Log("Add Simple Drums");
 				Jukebox.instance.AddSpeaker(2);
 			} else if (vrScoresIndex == 1) {
-				Debug.Log("Add Extra Layers");
+				Debug.Log("Add Backup");
 				Jukebox.instance.AddSpeaker(3);
+			} else if (vrScoresIndex == 2) {
+				Debug.Log("Add Advanced Drums");
+				Jukebox.instance.AddSpeaker(4);
+			} else if (vrScoresIndex == 3) {
+				Debug.Log("Add Extra");
+				Jukebox.instance.AddSpeaker(5);
 			}
+
 			vrScoresIndex++;
 		}
 	}

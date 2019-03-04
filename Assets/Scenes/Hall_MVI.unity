@@ -3076,6 +3076,16 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersLoops.Array.size
+      value: 6
+      objectReference: {fileID: 0}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersIntros.Array.size
+      value: 6
+      objectReference: {fileID: 0}
     - target: {fileID: 4420147610488300, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -3108,6 +3118,46 @@ Prefab:
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersIntros.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 12ce5c0aec836204787f36f104d76be7, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersIntros.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: db6a97b0e3e4c034495d374e8b22aae0, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersIntros.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: 77396f6f7e3395c41bb4bd58c6bec23f, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersIntros.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: c984801fc0e44154a8a526e283560a32, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersLoops.Array.data[4]
+      value: 
+      objectReference: {fileID: 8300000, guid: 78b9123b2a6af554685395c95c2c0322, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersLoops.Array.data[5]
+      value: 
+      objectReference: {fileID: 8300000, guid: 388596b1eed3f4a40ad19898cdc562c3, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersLoops.Array.data[2]
+      value: 
+      objectReference: {fileID: 8300000, guid: af4ced7c4c3504743a0c25c3bbac4ed6, type: 3}
+    - target: {fileID: 114051730438462618, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7,
+        type: 2}
+      propertyPath: audioLayersLoops.Array.data[3]
+      value: 
+      objectReference: {fileID: 8300000, guid: f63425942622e3f43a1341683eee57d9, type: 3}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e3e9bcedd8f2f184b9ecfd8e1b8f1ea7, type: 2}
   m_IsPrefabAsset: 0
