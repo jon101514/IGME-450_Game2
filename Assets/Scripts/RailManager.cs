@@ -106,15 +106,13 @@ public class RailManager : MonoBehaviour {
 
 		TurnNeeded();
 		//checking if player passes the checkpoint
-		/*
-		if(player.transform.position.z>=railCheckpoint.transform.position.z)
+		if(totalRailsPassed%50==0)//checkpoint is every 50 rails
 		{
 			float oldTime = GameManager.instance.GetTime();
-			float newTime = 15.0f;
-			oldTime += newTime;
-			GameManager.instance.SetTime(oldTime);
+            //time increases VERY fast so small num used to avoid too big times
+			GameManager.instance.SetTime(oldTime += 1.0f);
 		}
-		*/
+		
 		CleanUp();
 
 	}
