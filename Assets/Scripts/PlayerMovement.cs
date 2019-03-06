@@ -35,7 +35,7 @@ public class PlayerMovement : MonoBehaviour {
     private float UpdateSpeed()
     {
         //do any modifications to the speed value under this line but before assigning the gamemanager speed value
-        speed = GameManager.instance.Zinput * 2;
+        speed = GameManager.instance.Zinput;
         //any modifications from the raw input to spped go here in the form of speed = newSpeed
 
 		// Prevent users from going backwards

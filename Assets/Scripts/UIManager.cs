@@ -14,12 +14,17 @@ public class UIManager : MonoBehaviour
 	public Text timer; // Displays time remaining to the player.
 	public Text score;
 	public Text multiplier;
+	public Text railsRemaining;
 	public RectTransform gameOverPanel; // Panel with UI elements that display when the game is over.
 	public RectTransform startPanel; // Panel with UI elements that display when the game starts.
 
 	private Image gameOverPanelBG; // Background of the game over panel. 
 
 	private int FONT_SIZE = 24; // font size for the multiplier.
+
+	private AudioSource audi; // For playing the "checkpoint reached" jingle.
+
+	private RailManager rm; // reference to rail manager
 
     // Set up the singleton design pattern
     private void Awake()
@@ -40,6 +45,9 @@ public class UIManager : MonoBehaviour
 		gameOverPanel.gameObject.SetActive(false);
 		gameOverPanelBG = gameOverPanel.GetComponent<Image>();
 		gameOverPanelBG.color = new Color(gameOverPanelBG.color.r, gameOverPanelBG.color.g, gameOverPanelBG.color.b, 0);
+
+		rm = GameObject.FindObjectOfType<RailManager>();
+		audi = GetComponent<AudioSource>();
     }
 
     private void Start()    {
@@ -56,6 +64,7 @@ public class UIManager : MonoBehaviour
         UpdateUI();
 #endif
 		UpdateScore();
+		UpdateRM();
 		Jukebox.instance.ChangeVolume(0, speedometer.normalizedValue);
     }
 
@@ -75,6 +84,14 @@ public class UIManager : MonoBehaviour
 		multiplier.fontSize = FONT_SIZE + (int) Mathf.Round(ScoreManager.instance.GetMultiplier());
 	}
 
+	private void UpdateRM() {
+		if (GameManager.instance.GetGameIsOver()) {
+			railsRemaining.text = "GAME\nOVER";
+		} else {
+			railsRemaining.text = "NEXT\nCHECK\nPOINT\nIN\n" + rm.GetRailsRemaining() + " rails";
+		}
+	}
+
     // Update the UI slider.
     public void UpdateUI()
     {
@@ -84,6 +101,11 @@ public class UIManager : MonoBehaviour
 		
 	private void HideStartPanel() {
 		startPanel.gameObject.SetActive(false);
+	}
+
+	// Plays the "checkpoint reached" jingle.
+	public void PlayCheckpoint() {
+		audi.Play();
 	}
 
 	// Calls the coroutine which displays the Game Over panel.

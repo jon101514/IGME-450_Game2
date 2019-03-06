@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour {
     private int inputBufferFrames = 10; // number of frames the input will average for the value
 
 	private bool gameIsOver = false;
-	private float time = 90f; // Time remaining for the player.
+	private float time = 30f; // Time remaining for the player.
 
 	//public Slider speedometer;
 	//public Text test;

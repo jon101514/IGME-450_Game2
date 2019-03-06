@@ -29,8 +29,11 @@ public class RailManager : MonoBehaviour {
 	Queue<RailInfo> upcomingTurns;
 
 	//something
+	[SerializeField]
 	int totalRailsPassed;
 	int straightsSpawnedInRow;
+
+	private int railsToCheckpoint = 100; // By default, the amount of rails to pass before checkpoint is this.
 
 	// Direction of the cart and direction of the end of the track
 	[SerializeField]
@@ -106,11 +109,14 @@ public class RailManager : MonoBehaviour {
 
 		TurnNeeded();
 		//checking if player passes the checkpoint
-		if(totalRailsPassed%50==0)//checkpoint is every 50 rails
+		if(GetRailsRemaining() <= 0)//checkpoint is every XX rails
 		{
+			totalRailsPassed = 0;
+			railsToCheckpoint += (int) (railsToCheckpoint / 10);
 			float oldTime = GameManager.instance.GetTime();
             //time increases VERY fast so small num used to avoid too big times
-			GameManager.instance.SetTime(oldTime += 1.0f);
+			GameManager.instance.SetTime(oldTime += 10f);
+			UIManager.instance.PlayCheckpoint();
 		}
 		
 		CleanUp();
@@ -401,5 +407,9 @@ public class RailManager : MonoBehaviour {
 		currentRails.Enqueue(newestRail);
 	}
 
+	public int GetRailsRemaining() {
+		if (GameManager.instance.GetGameIsOver()) { return 9999; }
+		return railsToCheckpoint - totalRailsPassed;
+	}
 
 }
