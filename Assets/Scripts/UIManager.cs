@@ -35,7 +35,7 @@ public class UIManager : MonoBehaviour
         }
         // Set up the speedometer
         speedometer.minValue = GameManager.MIN_SPEED;
-        speedometer.maxValue = GameManager.MAX_SPEED;
+        speedometer.maxValue = GameManager.MAX_SPEED / 2;
 
         //Setup the tiltometer
         tiltometer.minValue = -GameManager.TILT_THRESHHOLD;
@@ -70,11 +70,19 @@ public class UIManager : MonoBehaviour
 
 	// Reveals the UI panel that displays when the game is over.
 	private IEnumerator GameOver() {
+		HideStartPanel();
 		gameOverPanel.gameObject.SetActive(true);
 		while (gameOverPanelBG.color.a < 0.99f) {
 			gameOverPanelBG.color = new Color(gameOverPanelBG.color.r, gameOverPanelBG.color.g, gameOverPanelBG.color.b, gameOverPanelBG.color.a + 0.01f);
 			yield return new WaitForEndOfFrame();
 		}
+		GameOverEnd();
+	}
+
+	private void GameOverEnd() {
+		HideStartPanel();
+		gameOverPanel.gameObject.SetActive(true);
+		gameOverPanelBG.color = new Color(gameOverPanelBG.color.r, gameOverPanelBG.color.g, gameOverPanelBG.color.b, 1);
 	}
 
 	// Update the score and multiplier UI elements. Also dynamically resize the score multiplier for gamefeel.
@@ -111,5 +119,6 @@ public class UIManager : MonoBehaviour
 	// Calls the coroutine which displays the Game Over panel.
 	public void ShowGameOverPanel() {
 		StartCoroutine(GameOver());
+		Invoke("GameOverEnd", 3f);
 	}
 }

@@ -255,14 +255,16 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 1
     m_LineSpacing: 1
-  m_Text: 'Drive your disco-cart along the track! Make sure to <b>reduce your speed</b>
-    when <b>taking turns</b>!
+  m_Text: 'Drive your disco-cart along the track! Make sure to <b>tilt the correct
+    direction</b> when <b>taking turns</b>!
 
 
     Speed : Tilt Forward and Backward
 
+    Turn: Tilt Left and Right
 
-    If you''re cruising too fast when taking a turn, you''ll veer off-track.'
+
+    If you''re not turning the right direction when taking a turn, you''ll veer off-track.'
 --- !u!222 &294188370
 CanvasRenderer:
   m_ObjectHideFlags: 0
