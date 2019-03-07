@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
 		if (GameManager.instance.GetGameIsOver()) {
 			railsRemaining.text = "GAME\nOVER";
 		} else {
-			railsRemaining.text = "NEXT\nCHECK\nPOINT\nIN\n" + rm.GetRailsRemaining() + " rails";
+			railsRemaining.text = rm.GetRailsRemaining() + " RAILS\nTO\nCHECK\nPOINT";
 		}
 	}
 
@@ -96,7 +96,7 @@ public class UIManager : MonoBehaviour
     public void UpdateUI()
     {
         speedometer.value = GameManager.instance.speed;
-        tiltometer.value = -GameManager.instance.Xinput;
+        tiltometer.value = GameManager.instance.Xinput;
     }
 		
 	private void HideStartPanel() {
