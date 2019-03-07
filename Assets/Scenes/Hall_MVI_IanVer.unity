@@ -175,6 +175,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &216473293 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 114277564396179136, guid: 729410e7d70f79e44b26f1820162c556,
+    type: 2}
+  m_PrefabInternal: {fileID: 431301297}
+  m_Script: {fileID: -113659843, guid: f70555f144d8491a825f0804e09c671c, type: 3}
 --- !u!114 &217137293 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114074382528907420, guid: 729410e7d70f79e44b26f1820162c556,
@@ -208,7 +214,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5e5743e92d7455f4186f6a3ec8db487c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speedometer: {fileID: 0}
+  speedometer: {fileID: 216473293}
   tiltometer: {fileID: 1609631456}
   test: {fileID: 1685352361}
   timer: {fileID: 1519249649}
