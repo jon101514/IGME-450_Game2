@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour {
 #if UNITY_EDITOR
         ZValues.Enqueue(Mathf.Round(UIManager.instance.speedometer.value * 100.0f) / 100.0f);
 #else //this would be on a phone
-        ZValues.Enqueue((Mathf.Round(-Input.acceleration.z * 100.0f) / 100.0f)-0.25f);//take out the -0.25f if it is causing too much of an issue
+        ZValues.Enqueue((Mathf.Round(-Input.acceleration.z * 100.0f) / 100.0f)-0.5f);//take out the -0.25f if it is causing too much of an issue
         // the goal is to offset the input so the phone doesnt have to be held straight up
         //alternatively just change it to a + if it tilts it the wrong way
 #endif
