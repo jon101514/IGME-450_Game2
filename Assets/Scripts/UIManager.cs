@@ -88,7 +88,7 @@ public class UIManager : MonoBehaviour
 		if (GameManager.instance.GetGameIsOver()) {
 			railsRemaining.text = "GAME\nOVER";
 		} else {
-			railsRemaining.text = "NEXT\nCHECK\nPOINT\nIN\n" + rm.GetRailsRemaining() + " rails";
+			railsRemaining.text = rm.GetRailsRemaining() + " RAILS TO CHECKPOINT";
 		}
 	}
 
