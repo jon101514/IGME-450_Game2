@@ -26,7 +26,7 @@ public class PlayerMovement : MonoBehaviour {
         UpdateSpeed(); // this sets the speed variable in the method
         leanState = UpdateLean(); //we will need a method that takes in lean state to do the visual rotation of the cart
 #if UNITY_EDITOR
-        Debug.Log("Player Speed: " + speed + "\nPlayer Lean: " + leanState);
+        //Debug.Log("Player Speed: " + speed + "\nPlayer Lean: " + leanState);
 #endif
     }
 
