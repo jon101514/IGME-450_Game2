@@ -129,7 +129,8 @@ public class RailManager : MonoBehaviour {
 	bool TurnSucceeded(RailInfo turnTaken)
 	{
 		// Edit this
-		return ( GameManager.instance.speed < 1.1f || turnTaken.Lean == playerScript.leanState);
+		return ( GameManager.instance.speed < 1.1f && (turnTaken.Lean == 0) || 
+            turnTaken.Lean == playerScript.leanState);
 	}
 
 
@@ -269,11 +270,11 @@ public class RailManager : MonoBehaviour {
 		// Random track length with a max of 25  and min of 3
 		// Not true random gets more likely to end every time a track is added
 		bool newTurn = true;
-		if(straightsSpawnedInRow < 25)
+		if(straightsSpawnedInRow < 30)
 		{
-			newTurn = (Random.Range(0, 25 - straightsSpawnedInRow) == 0);
+			newTurn = (Random.Range(0, 30 - straightsSpawnedInRow) == 0);
 		}
-		if(straightsSpawnedInRow < 3)
+		if(straightsSpawnedInRow < 11)
 		{
 			newTurn = false;
 		}
@@ -306,24 +307,50 @@ public class RailManager : MonoBehaviour {
 		bool xUp = direction == Direction.XUp;
 		bool xDown = direction == Direction.XDown;
 
+        if(newestRail.turn)
+        {
+            if (zUp)
+            {
+                position.z += 2.938f;
+                position.x -= 1.105f * newestRail.Lean;
+            }
+            else if (zDown)
+            {
+                position.z -= 2.938f;
+                position.x += 1.105f * newestRail.Lean;
+            }
+            else if (xUp)
+            {
+                position.x += 2.938f;
+                position.z += 1.105f * newestRail.Lean;
 
-		// Set position based on previous track
-		if (zUp)
-		{
-			position.z += 2.6f;
-		}
-		else if (zDown)
-		{
-			position.z -= 2.6f;
-		}
-		else if (xUp)
-		{
-			position.x += 2.6f;
-		}
-		else if (xDown)
-		{
-			position.x -= 2.6f;
-		}
+            }
+            else if (xDown)
+            {
+                position.x -= 2.938f;
+                position.z -= 1.105f * newestRail.Lean;
+            }
+        }
+        else
+        {
+            // Set position based on previous track
+            if (zUp)
+            {
+                position.z += 2.6f;
+            }
+            else if (zDown)
+            {
+                position.z -= 2.6f;
+            }
+            else if (xUp)
+            {
+                position.x += 2.6f;
+            }
+            else if (xDown)
+            {
+                position.x -= 2.6f;
+            }
+        }
 
 		newestRail.nextPosition = position;
 
@@ -351,60 +378,67 @@ public class RailManager : MonoBehaviour {
 		bool xDown = direction == Direction.XDown;
 
 
-		// Set position based on previous track
-		if (zUp)
+        RailInfo temp = newestRail;
+
+        newestRail = unusedTurns.Dequeue();
+
+
+        // Setting turn type
+        // Edit this
+        newestRail.direction = futureDirection;
+
+        bool leftOrRight = (1 == Random.Range(0, 2));
+        if (leftOrRight)
+        {
+            newestRail.turnDirection = (Direction)((int)futureDirection * 2);
+        }
+        else
+        {
+            newestRail.turnDirection = (Direction)((int)futureDirection / 2);
+        }
+
+        if ((int)newestRail.turnDirection > 8)
+        {
+            newestRail.turnDirection = (Direction)1;
+        }
+        if ((int)newestRail.turnDirection < 1)
+        {
+            newestRail.turnDirection = (Direction)8;
+        }
+
+
+
+        // Set position based on previous track
+        if (zUp)
 		{
-			position.z += 2.6f;
+			position.z += 2.95f;
+            position.x -= 1.11f * newestRail.Lean * -1; 
 		}
 		else if (zDown)
-		{
-			position.z -= 2.6f;
-		}
+        {
+            position.z -= 2.95f;
+            position.x += 1.11f * newestRail.Lean * -1;
+        }
 		else if (xUp)
 		{
-			position.x += 2.6f;
+			position.x += 2.95f;
+            position.z += 1.11f * newestRail.Lean * -1; 
 		}
 		else if (xDown)
-		{
-			position.x -= 2.6f;
-		}
+        {
+            position.x -= 2.95f;
+            position.z -= 1.11f * newestRail.Lean * -1;
+        }
 
-		newestRail.nextPosition = position;
-
-		newestRail = unusedTurns.Dequeue();
-
-
-		// Setting turn type
-		// Edit this
-		newestRail.direction = futureDirection;
-
-		bool leftOrRight = (1 == Random.Range(0,2));
-		if(leftOrRight)
-		{
-			newestRail.turnDirection = (Direction)((int)futureDirection * 2);
-		}
-		else
-		{
-			newestRail.turnDirection = (Direction)((int)futureDirection / 2);
-		}
-
-		if((int) newestRail.turnDirection > 8)
-		{
-			newestRail.turnDirection = (Direction) 1;
-		}
-		if ((int)newestRail.turnDirection < 1)
-		{
-			newestRail.turnDirection = (Direction) 8;
-		}
-
-
+        
 		// Create rail and add it
 		newestRail.NewPosition(position);
 
 		upcomingTurns.Enqueue(newestRail);
 		futureDirection = newestRail.turnDirection;
+        temp.nextPosition = position;
 
-		currentRails.Enqueue(newestRail);
+        currentRails.Enqueue(newestRail);
 	}
 
 	public int GetRailsRemaining() {
