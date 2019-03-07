@@ -102,7 +102,7 @@ public class GameManager : MonoBehaviour {
 #if UNITY_EDITOR
         XValues.Enqueue(Mathf.Round(UIManager.instance.tiltometer.value * 100.0f) / 100.0f);
 #else //this would be on a phone
-        XValues.Enqueue(Mathf.Round(-Input.acceleration.x * 100.0f) / 100.0f);
+        XValues.Enqueue(Mathf.Round(Input.acceleration.x * 100.0f) / 100.0f);
 #endif
         XValues.Dequeue();
         return AverageQueueData(XValues); //average the queue values to smooth the input

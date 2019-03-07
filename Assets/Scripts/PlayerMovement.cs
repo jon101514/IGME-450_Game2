@@ -37,12 +37,13 @@ public class PlayerMovement : MonoBehaviour {
         //do any modifications to the speed value under this line but before assigning the gamemanager speed value
         speed = GameManager.instance.Zinput;
         //any modifications from the raw input to spped go here in the form of speed = newSpeed
-
+		speed *= 1.875f; // This is slightly slower than before. 
 		// Prevent users from going backwards
 		if (speed < 0) {
 			speed = 0;
+		} else {
+			speed += 0.25f;
 		}
-        
 		tm.Translate(Vector3.forward * speed);
 		GameManager.instance.speed = speed;
 
