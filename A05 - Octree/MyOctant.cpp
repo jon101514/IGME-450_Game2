@@ -78,7 +78,10 @@ vector3 Simplex::MyOctant::GetMaxGlobal(void){return m_v3Max;}
 
 bool Simplex::MyOctant::IsColliding(uint a_uRBIndex)
 {
-	return false;
+	for (int i = 0; i < m_EntityList.size(); i++)
+	{
+		m_pEntityMngr->GetEntity(m_EntityList[i])->IsColliding(m_pEntityMngr->GetEntity(a_uRBIndex));
+	}
 }
 
 void Simplex::MyOctant::Display(uint a_nIndex, vector3 a_v3Color)
@@ -97,13 +100,17 @@ void Simplex::MyOctant::Display(vector3 a_v3Color)
 
 void Simplex::MyOctant::DisplayLeafs(vector3 a_v3Color)
 {
-
+	for (int i = 0; i < m_lChild.size(); i++)
+	{
+		Display(i,a_v3Color);
+	}
 }
 
 void Simplex::MyOctant::ClearEntityList(void){m_EntityList.clear();}
 
 void Simplex::MyOctant::Subdivide(void)
 {
+
 }
 
 MyOctant * Simplex::MyOctant::GetChild(uint a_nChild){return m_pChild[a_nChild];}
