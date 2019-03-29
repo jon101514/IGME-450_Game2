@@ -277,19 +277,113 @@ void MyRigidBody::ClearCollidingList(void)
 }
 uint MyRigidBody::SAT(MyRigidBody* const a_pOther)
 {
-	/*
-	Your code goes here instead of this comment;
+	float ra, rb;
+	matrix4 R, AbsR;
+	std::vector<vector3>u;//represent this local axes
+	std::vector<vector3>w;//represent other local axes
+	u.push_back(GetModelMatrix()[0] * m_m4ToWorld);
+	u.push_back(GetModelMatrix()[1] * m_m4ToWorld);
+	u.push_back(GetModelMatrix()[2] * m_m4ToWorld);
+	w.push_back(a_pOther->GetModelMatrix()[0] * m_m4ToWorld);
+	w.push_back(a_pOther->GetModelMatrix()[1] * m_m4ToWorld);
+	w.push_back(a_pOther->GetModelMatrix()[2] * m_m4ToWorld);
+	//compute rotation matrix expressing b in a's coordinate frame
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			R[i][j] = glm::dot(u[i], w[j]);
+		}
+	}
+	//compute translation vector t
+	vector3 t = a_pOther->GetCenterGlobal() - GetCenterGlobal();
+	//bring translation into a's coordinate frame
+	t = vector3(glm::dot(t, u[0]), glm::dot(t, u[1]), glm::dot(t, u[2]));
 
-	For this method, if there is an axis that separates the two objects
-	then the return will be different than 0; 1 for any separating axis
-	is ok if you are not going for the extra credit, if you could not
-	find a separating axis you need to return 0, there is an enum in
-	Simplex that might help you [eSATResults] feel free to use it.
-	(eSATResults::SAT_NONE has a value of 0)
-	*/
+	//compute common subexpressions. Add in an epsilon term to
+	//counteract arithmetic errors when 2 edges are parallel &
+	//their cross product is (near) null
+	for (int i = 0; i < 3; i++)
+	{
+		for (int j = 0; j < 3; j++)
+		{
+			AbsR[i][j] = glm::abs(R[i][j]) + glm::epsilon<float>();
+		}
+	}
+	//represents half widths
+	std::vector<float>e;
+	std::vector<float>f;
+	e.push_back(GetHalfWidth().x);
+	e.push_back(GetHalfWidth().y);
+	e.push_back(GetHalfWidth().z);
+	f.push_back(a_pOther->GetHalfWidth().x);
+	f.push_back(a_pOther->GetHalfWidth().y);
+	f.push_back(a_pOther->GetHalfWidth().z);
+	// Test axes L = A0, L = A1, L = A2
+	for (int i = 0; i < 3; i++) {
+		ra = e[i];
+		rb = f[0] * AbsR[i][0] + f[1] * AbsR[i][1] + f[2] * AbsR[i][2];
+		if (glm::abs(t[i]) > ra + rb) return 1;
+	}
+
+	//test axes L=B0, L=B1, L=B2
+	for (int i = 0; i < 3; i++)
+	{
+		ra = e[0] * AbsR[0][i] + e[1] * AbsR[1][i] + e[2] * AbsR[2][i];
+		rb = f[i];
+		if (glm::abs(t[0] * R[0][i] + t[1] * R[1][i] + t[2] * R[2][i]) > ra + rb) return 1;
+	}
+
+	//test axis L=A0 x B0
+	ra = e[1] * AbsR[2][0] + e[2] * AbsR[1][0];
+	rb = f[1] * AbsR[0][2] + f[2] * AbsR[0][1];
+	if (glm::abs(t[2] * R[1][0] - t[1] * R[2][0]) > ra + rb) return 1;
+
+	//test axis L=A0 x B1
+	ra = e[1] * AbsR[2][1] + e[2] * AbsR[1][1];
+	rb = f[0] * AbsR[0][2] + f[2] * AbsR[0][0];
+	if (glm::abs(t[2] * R[1][1] - t[1] * R[2][1]) > ra + rb) return 1;
+
+	// Test axis L = A0 x B2
+	ra = e[1] * AbsR[2][2] + e[2] * AbsR[1][2];
+	rb = f[0] * AbsR[0][1] + f[1] * AbsR[0][0];
+	if (glm::abs(t[2] * R[1][2] - t[1] * R[2][2]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B0
+	ra = e[0] * AbsR[2][0] + e[2] * AbsR[0][0];
+	rb = f[1] * AbsR[1][2] + f[2] * AbsR[1][1];
+	if (glm::abs(t[0] * R[2][0] - t[2] * R[0][0]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B1
+	ra = e[0] * AbsR[2][1] + e[2] * AbsR[0][1];
+	rb = f[0] * AbsR[1][2] + f[2] * AbsR[1][0];
+	if (glm::abs(t[0] * R[2][1] - t[2] * R[0][1]) > ra + rb) return 1;
+
+	// Test axis L = A1 x B2
+	ra = e[0] * AbsR[2][2] + e[2] * AbsR[0][2];
+	rb = f[0] * AbsR[1][1] + f[1] * AbsR[1][0];
+	if (glm::abs(t[0] * R[2][2] - t[2] * R[0][2]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B0
+	ra = e[0] * AbsR[1][0] + e[1] * AbsR[0][0];
+	rb = f[1] * AbsR[2][2] + f[2] * AbsR[2][1];
+	if (glm::abs(t[1] * R[0][0] - t[0] * R[1][0]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B1
+	ra = e[0] * AbsR[1][1] + e[1] * AbsR[0][1];
+	rb = f[0] * AbsR[2][2] + f[2] * AbsR[2][0];
+	if (glm::abs(t[1] * R[0][1] - t[0] * R[1][1]) > ra + rb) return 1;
+
+	// Test axis L = A2 x B2
+	ra = e[0] * AbsR[1][2] + e[1] * AbsR[0][2];
+	rb = f[0] * AbsR[2][1] + f[1] * AbsR[2][0];
+	if (glm::abs(t[1] * R[0][2] - t[0] * R[1][2]) > ra + rb) return 1;
+
+	// Since no separating axis is found, the OBBs must be intersecting
+	return 0;
 
 	//there is no axis test that separates this two objects
-	return 0;
+	//return eSATResults::SAT_NONE;
 }
 bool MyRigidBody::IsColliding(MyRigidBody* const a_pOther)
 {
